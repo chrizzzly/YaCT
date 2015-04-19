@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="660.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ui.create.NCController">
+   <children>
+      <RadioButton layoutX="14.0" layoutY="14.0" mnemonicParsing="false" selected="true" text="%rb.standard">
+         <toggleGroup>
+            <ToggleGroup fx:id="groupNewContainer" />
+         </toggleGroup>
+         <font>
+            <Font size="14.0" />
+         </font>
+         <tooltip>
+            <Tooltip text="%tooltip.standardContainer" />
+         </tooltip>
+      </RadioButton>
+      <RadioButton layoutX="220.0" layoutY="14.0" mnemonicParsing="false" text="%rb.custom" toggleGroup="$groupNewContainer">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <tooltip>
+            <Tooltip text="%tooltip.customContainer" />
+         </tooltip>
+      </RadioButton>
+      <Label layoutX="14.0" layoutY="50.0" text="%label.password" />
+      <Label layoutX="220.0" layoutY="50.0" text="%label.password.repeat" />
+      <PasswordField fx:id="pwField" layoutX="14.0" layoutY="70.0">
+         <tooltip>
+            <Tooltip text="%tooltip.password" />
+         </tooltip>
+      </PasswordField>
+      <PasswordField fx:id="pwFieldRepeat" layoutX="220.0" layoutY="70.0">
+         <tooltip>
+            <Tooltip text="%tooltip.password" />
+         </tooltip>
+      </PasswordField>
+      <TextField fx:id="pathField" layoutX="14.0" layoutY="130.0" prefHeight="25.0" prefWidth="331.0">
+         <tooltip>
+            <Tooltip text="%tooltip.path" />
+         </tooltip>
+      </TextField>
+      <Label layoutX="14.0" layoutY="110.0" text="%label.path" />
+      <Button layoutX="345.0" layoutY="130.0" mnemonicParsing="false" text="...">
+         <tooltip>
+            <Tooltip text="%tooltip.path.choose" />
+         </tooltip>
+      </Button>
+      <TextField fx:id="sizeField" layoutX="14.0" layoutY="190.0" promptText="1337">
+         <tooltip>
+            <Tooltip text="%tooltip.size" />
+         </tooltip>
+      </TextField>
+      <Label layoutX="14.0" layoutY="170.0" text="%label.size" />
+      <ComboBox fx:id="sizeFieldUnit" layoutX="163.0" layoutY="190.0" prefHeight="25.0" prefWidth="62.0">
+         <tooltip>
+            <Tooltip text="%tooltip.size.unit" />
+         </tooltip>
+      </ComboBox>
+      <Label layoutX="14.0" layoutY="250.0" text="%label.algorithm" />
+      <Label layoutX="220.0" layoutY="250.0" text="%label.hash" />
+      <ComboBox fx:id="algField" layoutX="14.0" layoutY="270.0" prefWidth="150.0">
+         <tooltip>
+            <Tooltip text="%tooltip.algorithm" />
+         </tooltip>
+      </ComboBox>
+      <ComboBox fx:id="hashField" layoutX="220.0" layoutY="270.0" prefWidth="150.0">
+         <tooltip>
+            <Tooltip text="%tooltip.hash" />
+         </tooltip>
+      </ComboBox>
+      <Label layoutX="14.0" layoutY="310.0" text="%label.mode" />
+      <ComboBox fx:id="modeField" layoutX="14.0" layoutY="330.0" prefWidth="150.0">
+         <tooltip>
+            <Tooltip text="%tooltip.mode" />
+         </tooltip>
+      </ComboBox>
+   </children>
+</AnchorPane>

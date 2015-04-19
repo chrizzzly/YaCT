@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.3287671232876712" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+            <Button layoutX="45.0" layoutY="60.0" mnemonicParsing="false" onAction="#newContainerPaneFire" onMouseClicked="#newContainerPane" onMouseEntered="#newContainerHelp" onTouchPressed="#newContainerPane" prefHeight="70.0" prefWidth="250.0" styleClass="button-left" text="%button.NewContainer">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button layoutX="45.0" layoutY="200.0" mnemonicParsing="false" onAction="#openContainerPaneFire" onMouseClicked="#openContainerPane" onMouseEntered="#openContainerHelp" onTouchPressed="#openContainerPane" prefHeight="70.0" prefWidth="250.0" styleClass="button-left" text="%button.OpenContainer">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button layoutX="45.0" layoutY="340.0" mnemonicParsing="false" onAction="#closeContainerPaneFire" onMouseClicked="#closeContainerPane" onMouseEntered="#closeContainerHelp" onTouchPressed="#closeContainerPane" prefHeight="70.0" prefWidth="250.0" styleClass="button-left" text="%button.CloseContainer">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button layoutX="45.0" layoutY="480.0" mnemonicParsing="false" onAction="#alterContainerPaneFire" onMouseClicked="#alterContainerPane" onMouseEntered="#alterContainerHelp" onTouchPressed="#alterContainerPane" prefHeight="70.0" prefWidth="250.0" styleClass="button-left" text="%buttonAlterContainer">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Canvas height="150.0" layoutX="14.0" layoutY="602.0" styleClass="logo-container" width="150.0" />
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+            <AnchorPane layoutX="14.0" layoutY="14.0">
+               <children>
+                  <SubScene fx:id="newContainerPane" height="744.0" width="660.0">
+                    <root>
+                      <Region />
+                    </root>
+                  </SubScene>
+               </children>
+            </AnchorPane>
+         </children></AnchorPane>
+  </items>
+</SplitPane>
