@@ -6,14 +6,14 @@ package application.ui.main;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import application.UiLoader;
 
-public class YactController 
+public class YactController implements ISubController
 {	
 	ResourceBundle resources;
 	
@@ -34,11 +34,16 @@ public class YactController
 	private Parent openContainerPane;
 	private Parent closeContainerPane;
 	private Parent alterContainerPane;
+	private Parent aboutPane;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public YactController() throws IOException
 	{
 		newContainerPane = UiLoader.loadNewContainerUI();
+		openContainerPane = UiLoader.loadOpenContainerUI();
+		closeContainerPane = UiLoader.loadCloseContainerUI();
+		alterContainerPane = UiLoader.loadAlterContainerUI();
+		aboutPane = UiLoader.loadAboutUI();
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,6 +52,7 @@ public class YactController
 	private void newContainerPane()
 	{
 		//onClick onTouch
+		newContainerHelpArea.visibleProperty().set(false);
 	}
 	
 	@FXML
@@ -72,11 +78,10 @@ public class YactController
 	@FXML
 	private void newContainerPaneFire()
 	{
-		System.out.println("Click!");
+		System.out.println("NewContainerPane clicked");
 		containerView.getChildren().clear();
 		containerView.getChildren().add(newContainerPane);
 		containerView.setVisible(true);
-//		newContainerPane.visibleProperty().set(true);
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,6 +90,7 @@ public class YactController
 	private void openContainerPane()
 	{
 		//onClick onTouch
+		openContainerHelpArea.visibleProperty().set(false);
 	}
 	
 	@FXML
@@ -110,7 +116,10 @@ public class YactController
 	@FXML
 	private void openContainerPaneFire()
 	{
-		
+		System.out.println("OpenContainerPane clicked");
+		containerView.getChildren().clear();
+		containerView.getChildren().add(openContainerPane);
+		containerView.setVisible(true);
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,6 +128,7 @@ public class YactController
 	private void closeContainerPane()
 	{
 		//onClick onTouch
+		closeContainerHelpArea.visibleProperty().set(false);
 	}
 	
 	@FXML
@@ -141,7 +151,12 @@ public class YactController
 	
 	@FXML
 	private void closeContainerPaneFire()
-	{}
+	{
+		System.out.println("CloseContainerPane clicked");
+		containerView.getChildren().clear();
+		containerView.getChildren().add(closeContainerPane);
+		containerView.setVisible(true);
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//Button AlterContainer
@@ -149,6 +164,7 @@ public class YactController
 	private void alterContainerPane()
 	{
 		//onClick onTouch
+		alterContainerHelpArea.visibleProperty().set(false);
 	}
 	
 	@FXML
@@ -171,10 +187,44 @@ public class YactController
 	
 	@FXML
 	private void alterContainerPaneFire()
-	{}
+	{
+		System.out.println("AlterContainerPane clicked");
+		containerView.getChildren().clear();
+		containerView.getChildren().add(alterContainerPane);
+		containerView.setVisible(true);
+	}
 	
 	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//Menu
+	@FXML
+    void quitProgram()
+	{
+		Platform.exit();
+    }
 	
-	
+	@FXML
+    void aboutAreaFire() 
+	{
+		System.out.println("About clicked");
+		containerView.getChildren().clear();
+		containerView.getChildren().add(aboutPane);
+		containerView.setVisible(true);
+    }
+
+	@FXML
+	@Override
+	public void cancel() 
+	{	
+		
+	}
+
+	@FXML
+	@Override
+	public Object doIt() 
+	{
+		return null;
+	}
+
 
 }

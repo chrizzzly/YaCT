@@ -66,7 +66,7 @@ public class FileHeader
 			//4. Key mit gepeppertem PW verschlüsselt
 			
 			Random rand = new Random();
-			byte[] pepper = rand.generateRandom();
+			byte[] pepper = rand.generateRandom(0);
 			
 			//print.println(Base64.encode(ca.getBytes("UTF-8")));
 			print.write(Base64.encode(ca));

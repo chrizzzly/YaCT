@@ -3,49 +3,116 @@
  ******************************************************************************/
 package application.ui.create;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.io.File;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import security.Hash;
+import utils.Algorithms;
+import utils.HashAlgorithms;
+import utils.Mode;
+import utils.SysProps;
+import application.newContainer.NewContainer;
+import application.ui.main.ISubController;
 
-public class NCController 
+import com.sun.javafx.scene.traversal.Algorithm;
+
+public class NCController implements ISubController<NewContainer>
 {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
+	private FileChooser chooser;
+	private NewContainer nc;
+	private ObservableList<HashAlgorithms> hashes;
+	private ObservableList<Algorithms> algorithms;
+	private ObservableList<Mode> modes;
+	private ObservableList<String> units;
+	
+	public NCController()
+	{
+		chooser = new FileChooser();
+		nc = new NewContainer();
+		hashes = FXCollections.observableArrayList();
+		hashes.addAll(HashAlgorithms.values());
+		
+		algorithms = FXCollections.observableArrayList();
+		algorithms.addAll(Algorithms.values());
+		
+		modes = FXCollections.observableArrayList();
+		modes.addAll(Mode.values());
+		
+		units = FXCollections.observableArrayList();
+		units.addAll("GB","MB");
+	}
+	
+	@FXML
+	private File buttonOpen()
+	{
+		System.out.println("Open clicked");
+		chooser.setTitle("Open File");
+		chooser.setInitialFileName(SysProps.getUserhome());
+		File selectedFile = chooser.showOpenDialog(new Stage());
+		pathField.setText(selectedFile.getPath());
+		nc.setPath(selectedFile.getPath());
+		return selectedFile;
+	}
+	
 
     @FXML
     private ToggleGroup groupNewContainer;
+    
+    private void toggle()
+    {
+    	if(rbS.isArmed())
+    	{
+    		hashField.setVisible(false);
+    		modeField.setVisible(false);
+    		algField.setVisible(false);
+    	}
+    }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Need to be filled by User
     @FXML
-    private PasswordField pwFieldRepeat;
-
+    private RadioButton rbS;
+    
     @FXML
-    private ComboBox<?> hashField;
-
+    private RadioButton rbC;
+    
     @FXML
     private PasswordField pwField;
-
+    
     @FXML
-    private ComboBox<?> sizeFieldUnit;
-
-    @FXML
-    private TextField pathField;
-
-    @FXML
-    private ComboBox<?> modeField;
+    private PasswordField pwFieldRepeat;
 
     @FXML
     private TextField sizeField;
 
     @FXML
-    private ComboBox<?> algField;
+    private ComboBox<String> sizeFieldUnit;
+
+    @FXML
+    private TextField pathField;
+
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Only needed on custom mode
+    @FXML
+    private ComboBox<HashAlgorithms> hashField;
+    
+    @FXML
+    private ComboBox<Mode> modeField;  
+
+    @FXML
+    private ComboBox<Algorithms> algField;
+    
+
 
     @FXML
     void initialize() 
@@ -60,5 +127,31 @@ public class NCController
         assert sizeField != null : "fx:id=\"sizeField\" was not injected: check your FXML file 'yactNewContainer.fxml'.";
         assert algField != null : "fx:id=\"algField\" was not injected: check your FXML file 'yactNewContainer.fxml'.";
 
+		hashField.itemsProperty().set(hashes);
+		hashField.setValue(HashAlgorithms.Whirlpool);
+		
+		algField.itemsProperty().set(algorithms);
+		algField.setValue(Algorithms.AES);
+		
+		modeField.itemsProperty().set(modes);
+		modeField.setValue(Mode.XTS);
+		
+		sizeFieldUnit.itemsProperty().set(units);
+		sizeFieldUnit.setValue("MB");
     }
+
+	@Override
+	public void cancel() 
+	{
+		
+	}
+
+	@Override
+	public NewContainer doIt() 
+	{
+		
+//		nc.getAlgorithm()==null ? AES : Algorithm
+//		nc.setAlgorithm();
+		return nc;	
+	}
 }

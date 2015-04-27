@@ -13,12 +13,13 @@ import java.security.SecureRandom;
 public class Random
 {
 	/**
-	 * Generates a 512-Byte array with random data 
-	 * @return returns byte[] with 512-Byte random data
+	 * Generates a Byte array with random data
+	 * @param length the length of the byte array 
+	 * @return returns byte[] with random data
 	 */
-	public byte[] generateRandom()
+	public byte[] generateRandom(int length)
 	{
-		byte[] retVal = new byte[512];
+		byte[] retVal = new byte[length];
 		SecureRandom rand = new SecureRandom();
 		rand.nextBytes(retVal);
 		return retVal;

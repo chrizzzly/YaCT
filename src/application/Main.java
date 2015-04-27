@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import utils.Debug;
 
 
 public class Main extends Application 
@@ -23,6 +24,7 @@ public class Main extends Application
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("yact.css").toExternalForm());
 			primaryStage.setScene(scene);
+			primaryStage.setTitle("YaCT");
 			primaryStage.show();
 		} 
 		catch(Exception e) 
@@ -33,7 +35,14 @@ public class Main extends Application
 	
 	public static void main(String[] args) throws IOException, GeneralSecurityException 
 	{
-		//System.out.println(Debug.debugMsg());
+		try 
+		{
+			System.out.println(Debug.debugMsg());
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
 		
 //		FileHeader.writeHeader(true, "123".getBytes("UTF-8"), "456".getBytes("UTF-8"), "789".getBytes("UTF-8"));
 //		FileHeader.readHeader();

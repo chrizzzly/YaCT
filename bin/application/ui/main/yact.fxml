@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+  YaCT | (c) 2015 Christian Hoppe | http://opensource.org/licenses/MIT
+-->
+
 <?import javafx.scene.image.*?>
 <?import javafx.scene.*?>
 <?import java.lang.*?>
@@ -16,14 +20,14 @@
       <menus>
         <Menu mnemonicParsing="false" text="%menu.title.file">
           <items>
-            <MenuItem mnemonicParsing="false" text="%menu.title.new" />
-            <MenuItem mnemonicParsing="false" text="%menu.title.open" />
+            <MenuItem mnemonicParsing="false" onAction="#newContainerPaneFire" text="%menu.title.new" />
+            <MenuItem mnemonicParsing="false" onAction="#openContainerPaneFire" text="%menu.title.open" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="%menu.title.close" />
+            <MenuItem mnemonicParsing="false" onAction="#closeContainerPaneFire" text="%menu.title.close" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="%menu.title.preferences" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="%menu.title.quit" />
+            <MenuItem mnemonicParsing="false" onAction="#quitProgram" text="%menu.title.quit" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="%menu.title.edit">
@@ -42,7 +46,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="%menu.title.help">
           <items>
-            <MenuItem mnemonicParsing="false" text="%menu.title.about" />
+            <MenuItem mnemonicParsing="false" onAction="#aboutAreaFire" text="%menu.title.about" />
           </items>
         </Menu>
       </menus>
@@ -95,12 +99,12 @@
                         <Font size="14.0" />
                      </font>
                   </TextArea>
-                  <Button layoutX="380.0" layoutY="713.0" mnemonicParsing="false" text="%button.cancel" AnchorPane.rightAnchor="160.0">
+                  <Button layoutX="380.0" layoutY="713.0" mnemonicParsing="false" onAction="#cancel" text="%button.cancel" AnchorPane.rightAnchor="160.0">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button layoutX="530.0" layoutY="713.0" mnemonicParsing="false" text="%button.next" AnchorPane.rightAnchor="20.0">
+                  <Button layoutX="530.0" layoutY="713.0" mnemonicParsing="false" onAction="#doIt" text="%button.next" AnchorPane.rightAnchor="20.0">
                      <font>
                         <Font size="18.0" />
                      </font>

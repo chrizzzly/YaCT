@@ -1,14 +1,12 @@
 /*******************************************************************************
  * YaCT | (c) 2015 Christian Hoppe | http://opensource.org/licenses/MIT
  ******************************************************************************/
-package filehandling;
 
-import javafx.application.Application;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+package utils;
 
-public class FileOpen 
+public enum Mode
 {
-	
-
+	XTS,
+	CBC,
+	ECB;
 }
