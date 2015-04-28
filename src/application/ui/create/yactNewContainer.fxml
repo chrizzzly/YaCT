@@ -13,9 +13,9 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="660.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ui.create.NCController">
+<AnchorPane prefHeight="518.0" prefWidth="683.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ui.create.NCController">
    <children>
-      <RadioButton fx:id="rbS" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" selected="true" text="%rb.standard">
+      <RadioButton fx:id="rbS" mnemonicParsing="false" selected="true" text="%rb.standard" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
          <toggleGroup>
             <ToggleGroup fx:id="groupNewContainer" />
          </toggleGroup>
@@ -26,7 +26,8 @@
             <Tooltip text="%tooltip.standardContainer" />
          </tooltip>
       </RadioButton>
-      <RadioButton fx:id="rbC" layoutX="220.0" layoutY="14.0" mnemonicParsing="false" text="%rb.custom" toggleGroup="$groupNewContainer">
+      <TextArea editable="false" layoutX="477.0" layoutY="10.0" prefWidth="377.0" styleClass="help-bg" text="%help.standard" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <RadioButton fx:id="rbC" mnemonicParsing="false" text="%rb.custom" toggleGroup="$groupNewContainer" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font size="14.0" />
          </font>
@@ -34,57 +35,64 @@
             <Tooltip text="%tooltip.customContainer" />
          </tooltip>
       </RadioButton>
-      <Label layoutX="14.0" layoutY="50.0" text="%label.password" />
-      <Label layoutX="220.0" layoutY="50.0" text="%label.password.repeat" />
-      <PasswordField fx:id="pwField" layoutX="14.0" layoutY="70.0">
+      <TextArea editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.custom" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <Label text="%label.password" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="50.0" />
+      <Label text="%label.password.repeat" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="110.0" />
+      <PasswordField fx:id="pwField" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="70.0">
          <tooltip>
             <Tooltip text="%tooltip.password" />
          </tooltip>
       </PasswordField>
-      <PasswordField fx:id="pwFieldRepeat" layoutX="220.0" layoutY="70.0">
+      <PasswordField fx:id="pwFieldRepeat" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="130.0">
          <tooltip>
             <Tooltip text="%tooltip.password" />
          </tooltip>
       </PasswordField>
-      <TextField fx:id="pathField" layoutX="14.0" layoutY="130.0" prefHeight="25.0" prefWidth="331.0">
+      <TextArea editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.password" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextField fx:id="pathField" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="190.0">
          <tooltip>
             <Tooltip text="%tooltip.path" />
          </tooltip>
       </TextField>
-      <Label layoutX="14.0" layoutY="110.0" text="%label.path" />
-      <Button layoutX="345.0" layoutY="130.0" mnemonicParsing="false" onAction="#buttonOpen" text="...">
+      <Label text="%label.path" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="170.0" />
+      <TextArea editable="false" prefWidth="377.0" styleClass="help-bg" text="%help.path" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <Button mnemonicParsing="false" onAction="#buttonOpen" text="..." AnchorPane.leftAnchor="214.0" AnchorPane.topAnchor="190.0">
          <tooltip>
             <Tooltip text="%tooltip.path.choose" />
          </tooltip>
       </Button>
-      <TextField fx:id="sizeField" layoutX="14.0" layoutY="190.0" promptText="1337">
+      <TextField fx:id="sizeField" promptText="1337" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="250.0">
          <tooltip>
             <Tooltip text="%tooltip.size" />
          </tooltip>
       </TextField>
-      <Label layoutX="14.0" layoutY="170.0" text="%label.size" />
-      <ComboBox fx:id="sizeFieldUnit" layoutX="163.0" layoutY="190.0" prefHeight="25.0" prefWidth="62.0">
+      <Label text="%label.size" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="230.0" />
+      <TextArea editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.size" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <ComboBox fx:id="sizeFieldUnit" prefHeight="25.0" prefWidth="62.0" AnchorPane.leftAnchor="164.0" AnchorPane.topAnchor="250.0">
          <tooltip>
             <Tooltip text="%tooltip.size.unit" />
          </tooltip>
       </ComboBox>
-      <Label layoutX="14.0" layoutY="250.0" text="%label.algorithm" />
-      <Label layoutX="220.0" layoutY="250.0" text="%label.hash" />
-      <ComboBox fx:id="algField" layoutX="14.0" layoutY="270.0" prefWidth="150.0">
+      <Label text="%label.algorithm" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="320.0" />
+      <Label text="%label.hash" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="440.0" />
+      <ComboBox fx:id="algField" prefWidth="150.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="340.0">
          <tooltip>
             <Tooltip text="%tooltip.algorithm" />
          </tooltip>
       </ComboBox>
-      <ComboBox fx:id="hashField" layoutX="220.0" layoutY="270.0" prefWidth="150.0">
+      <ComboBox fx:id="hashField" prefWidth="150.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="460.0">
          <tooltip>
             <Tooltip text="%tooltip.hash" />
          </tooltip>
       </ComboBox>
-      <Label layoutX="14.0" layoutY="310.0" text="%label.mode" />
-      <ComboBox fx:id="modeField" layoutX="14.0" layoutY="330.0" prefWidth="150.0">
+      <Label text="%label.mode" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="380.0" />
+      <ComboBox fx:id="modeField" prefWidth="150.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="400.0">
          <tooltip>
             <Tooltip text="%tooltip.mode" />
          </tooltip>
       </ComboBox>
+      <TextArea editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.algorithm" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.mode" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.hash" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
    </children>
 </AnchorPane>

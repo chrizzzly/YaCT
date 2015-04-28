@@ -17,6 +17,13 @@ Description of what is or isn't functioning
 
 ####################################################################################
 
+ 0.4.5-alpha 28.04.2015
+ NO security features in this Build! GUI only! 
+- [application.ui.main]			Fixed the height of the application window
++ [application.ui.*]			Added help-region to the windows
++ [application.language]		Added translations for helpareas
+- [application]					Fixed css to match all helpareas
+
  0.4.4-alpha 27.04.2015
  NO security features in this Build! GUI only! 
 * [utils.SysProps] 				Removed double Failsafe for locales
