@@ -22,7 +22,8 @@
             <Tooltip text="%tooltip.closeAll" />
          </tooltip>
       </Button>
-      <TextArea editable="false" prefWidth="377.0" styleClass="help-bg" text="%help.closeOpenContainers" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
-      <TextArea editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.closeAll" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpCloseOpen" editable="false" prefWidth="377.0" styleClass="help-bg" text="%help.closeOpenContainers" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpCloseAll" editable="false" layoutX="302.0" layoutY="24.0" onMouseEntered="#helpCloseAllShow" onMouseExited="#helpCloseAllHide" prefWidth="377.0" styleClass="help-bg" text="%help.closeAll" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <Pane fx:id="helpView" prefWidth="377.0" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
    </children>
 </AnchorPane>
