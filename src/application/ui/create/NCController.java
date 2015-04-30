@@ -296,6 +296,8 @@ public class NCController implements ISubController<NewContainer>
 		
 		sizeFieldUnit.itemsProperty().set(units);
 		sizeFieldUnit.setValue("MB");
+		
+		toggleStandard();
     }
 
 	@Override

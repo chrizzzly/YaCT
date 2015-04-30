@@ -35,6 +35,7 @@ public class YactController implements ISubController
 	private Parent closeContainerPane;
 	private Parent alterContainerPane;
 	private Parent aboutPane;
+	private Parent settingsPane;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public YactController() throws IOException
@@ -44,6 +45,7 @@ public class YactController implements ISubController
 		closeContainerPane = UiLoader.loadCloseContainerUI();
 		alterContainerPane = UiLoader.loadAlterContainerUI();
 		aboutPane = UiLoader.loadAboutUI();
+		settingsPane = UiLoader.loadSettingsUI();
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -212,6 +214,15 @@ public class YactController implements ISubController
 		containerView.setVisible(true);
     }
 
+	@FXML
+	void settingsAreaFire()
+	{
+		System.out.println("Settings clicked");
+		containerView.getChildren().clear();
+		containerView.getChildren().add(settingsPane);
+		containerView.setVisible(true);
+	}
+	
 	@FXML
 	@Override
 	public void cancel() 

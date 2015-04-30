@@ -33,7 +33,7 @@ public class UiLoader
 	 */
 	private static ResourceBundle loadBundle(String path)
 	{
-		ResourceBundle resources = ResourceBundle.getBundle(path, SysProps.getSystemLocale());// UiLoader.class.getClassLoader());
+		ResourceBundle resources = ResourceBundle.getBundle(path, SysProps.getSystemLocale());
 		return resources;
 	}
 	
@@ -86,6 +86,14 @@ public class UiLoader
 	{
 		ResourceBundle resources = loadBundle("application/language/yact");
 		Parent pane = loadFile("ui/main/about/yactAbout.fxml", resources);
+		
+		return pane;
+	}
+	
+	public static Parent loadSettingsUI() throws IOException
+	{
+		ResourceBundle resources = loadBundle("application/language/yact");
+		Parent pane = loadFile("ui/main/settings/yactSettings.fxml", resources);
 		
 		return pane;
 	}
