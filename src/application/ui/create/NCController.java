@@ -9,21 +9,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import security.Hash;
 import utils.Algorithms;
 import utils.HashAlgorithms;
 import utils.Mode;
 import utils.SysProps;
 import application.newContainer.NewContainer;
 import application.ui.main.ISubController;
-
-import com.sun.javafx.scene.traversal.Algorithm;
 
 public class NCController implements ISubController<NewContainer>
 {
@@ -51,6 +51,142 @@ public class NCController implements ISubController<NewContainer>
 		units.addAll("GB","MB");
 	}
 	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//HelpArea
+	@FXML
+	private TextArea helpStandard;
+	@FXML
+	private TextArea helpCustom;
+	@FXML
+	private TextArea helpPassword;
+	@FXML
+	private TextArea helpPath;
+	@FXML
+	private TextArea helpSize;
+	@FXML
+	private TextArea helpAlgorithm;
+	@FXML
+	private TextArea helpMode;
+	@FXML
+	private TextArea helpHash;
+	
+	@FXML
+	private Pane helpView;
+	
+	@FXML
+	private void helpStandardShow()
+	{
+		//onMouseOver
+		helpStandard.visibleProperty().set(!helpView.isVisible());
+	}
+	
+	@FXML
+	private void helpStandardHide()
+	{
+		//onMouseOut
+		helpStandard.visibleProperty().set(false);
+	}
+	
+	@FXML
+	private void helpCustomShow()
+	{
+		//onMouseOver
+		helpCustom.visibleProperty().set(!helpView.isVisible());
+	}
+	
+	@FXML
+	private void helpCustomHide()
+	{
+		//onMouseOut
+		helpCustom.visibleProperty().set(false);
+	}
+	
+	@FXML
+	private void helpPasswordShow()
+	{
+		//onMouseOver
+		helpPassword.visibleProperty().set(!helpView.isVisible());
+	}
+	
+	@FXML
+	private void helpPasswordHide()
+	{
+		//onMouseOut
+		helpPassword.visibleProperty().set(false);
+	}
+	
+	@FXML
+	private void helpPathShow()
+	{
+		//onMouseOver
+		helpPath.visibleProperty().set(!helpView.isVisible());
+	}
+	
+	@FXML
+	private void helpPathHide()
+	{
+		//onMouseOut
+		helpPath.visibleProperty().set(false);
+	}
+	
+	@FXML
+	private void helpSizeShow()
+	{
+		//onMouseOver
+		helpSize.visibleProperty().set(!helpView.isVisible());
+	}
+	
+	@FXML
+	private void helpSizeHide()
+	{
+		//onMouseOut
+		helpSize.visibleProperty().set(false);
+	}
+	
+	@FXML
+	private void helpAlgorithmShow()
+	{
+		//onMouseOver
+		helpAlgorithm.visibleProperty().set(!helpView.isVisible());
+	}
+	
+	@FXML
+	private void helpAlgorithmHide()
+	{
+		//onMouseOut
+		helpAlgorithm.visibleProperty().set(false);
+	}
+	
+	@FXML
+	private void helpModeShow()
+	{
+		//onMouseOver
+		helpMode.visibleProperty().set(!helpView.isVisible());
+	}
+	
+	@FXML
+	private void helpModeHide()
+	{
+		//onMouseOut
+		helpMode.visibleProperty().set(false);
+	}
+	
+	@FXML
+	private void helpHashShow()
+	{
+		//onMouseOver
+		helpHash.visibleProperty().set(!helpView.isVisible());
+	}
+	
+	@FXML
+	private void helpHashHide()
+	{
+		//onMouseOut
+		helpHash.visibleProperty().set(false);
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
 	@FXML
 	private File buttonOpen()
 	{
@@ -63,18 +199,40 @@ public class NCController implements ISubController<NewContainer>
 		return selectedFile;
 	}
 	
-
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ToggleGroup for Radio Buttons
     @FXML
     private ToggleGroup groupNewContainer;
     
-    private void toggle()
+    @FXML
+    private Label hashLabel;
+    @FXML
+    private Label algLabel;
+    @FXML
+    private Label modeLabel;
+    
+    @FXML
+    private void toggleStandard()
     {
-    	if(rbS.isArmed())
-    	{
-    		hashField.setVisible(false);
-    		modeField.setVisible(false);
-    		algField.setVisible(false);
-    	}
+    	hashField.visibleProperty().set(false);
+    	algField.visibleProperty().set(false);
+    	modeField.visibleProperty().set(false);
+    	hashLabel.visibleProperty().set(false);
+    	algLabel.visibleProperty().set(false);
+    	modeLabel.visibleProperty().set(false);
+		nc.setAlgorithm(Algorithms.AES);
+		nc.setHash(HashAlgorithms.Whirlpool);
+    }
+    
+    @FXML
+    private void toggleCustom()
+    {
+    	hashLabel.visibleProperty().set(true);
+    	algLabel.visibleProperty().set(true);
+    	modeLabel.visibleProperty().set(true);
+    	hashField.visibleProperty().set(true);
+    	algField.visibleProperty().set(true);
+    	modeField.visibleProperty().set(true);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

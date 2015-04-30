@@ -14,7 +14,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="800.0" prefWidth="1026.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ui.main.YactController">
+<VBox prefHeight="625.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ui.main.YactController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -51,26 +51,26 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane dividerPositions="0.3287671232876712" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <SplitPane dividerPositions="0.3287671232876712" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-            <Button layoutX="45.0" layoutY="60.0" mnemonicParsing="false" onAction="#newContainerPaneFire" onMouseClicked="#newContainerPane" onMouseEntered="#newContainerHelp" onMouseExited="#newContainerHelpExit" onTouchPressed="#newContainerPane" prefHeight="70.0" prefWidth="250.0" styleClass="button-left" text="%button.NewContainer">
+            <Button mnemonicParsing="false" onAction="#newContainerPaneFire" onMouseClicked="#newContainerPane" onMouseEntered="#newContainerHelp" onMouseExited="#newContainerHelpExit" onTouchPressed="#newContainerPane" prefHeight="70.0" prefWidth="250.0" styleClass="button-left" text="%button.NewContainer" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="40.0">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="45.0" layoutY="200.0" mnemonicParsing="false" onAction="#openContainerPaneFire" onMouseClicked="#openContainerPane" onMouseEntered="#openContainerHelp" onMouseExited="#openContainerHelpExit" onTouchPressed="#openContainerPane" prefHeight="70.0" prefWidth="250.0" styleClass="button-left" text="%button.OpenContainer">
+            <Button mnemonicParsing="false" onAction="#openContainerPaneFire" onMouseClicked="#openContainerPane" onMouseEntered="#openContainerHelp" onMouseExited="#openContainerHelpExit" onTouchPressed="#openContainerPane" prefHeight="70.0" prefWidth="250.0" styleClass="button-left" text="%button.OpenContainer" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="140.0">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="45.0" layoutY="340.0" mnemonicParsing="false" onAction="#closeContainerPaneFire" onMouseClicked="#closeContainerPane" onMouseEntered="#closeContainerHelp" onMouseExited="#closeContainerHelpExit" onTouchPressed="#closeContainerPane" prefHeight="70.0" prefWidth="250.0" styleClass="button-left" text="%button.CloseContainer">
+            <Button mnemonicParsing="false" onAction="#closeContainerPaneFire" onMouseClicked="#closeContainerPane" onMouseEntered="#closeContainerHelp" onMouseExited="#closeContainerHelpExit" onTouchPressed="#closeContainerPane" prefHeight="70.0" prefWidth="250.0" styleClass="button-left" text="%button.CloseContainer" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="240.0">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="45.0" layoutY="480.0" mnemonicParsing="false" onAction="#alterContainerPaneFire" onMouseClicked="#alterContainerPane" onMouseEntered="#alterContainerHelp" onMouseExited="#alterContainerHelpExit" onTouchPressed="#alterContainerPane" prefHeight="70.0" prefWidth="250.0" styleClass="button-left" text="%button.AlterContainer">
+            <Button mnemonicParsing="false" onAction="#alterContainerPaneFire" onMouseClicked="#alterContainerPane" onMouseEntered="#alterContainerHelp" onMouseExited="#alterContainerHelpExit" onTouchPressed="#alterContainerPane" prefHeight="70.0" prefWidth="250.0" styleClass="button-left" text="%button.AlterContainer" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="340.0">
                <font>
                   <Font size="18.0" />
                </font>
@@ -79,37 +79,37 @@
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-                  <TextArea fx:id="newContainerHelpArea" editable="false" prefHeight="766.0" prefWidth="683.0" styleClass="help-bg" text="%text.newContainerHelp" visible="false" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TextArea fx:id="newContainerHelpArea" editable="false" styleClass="help-bg" text="%text.newContainerHelp" visible="false" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextArea>
-                  <TextArea fx:id="openContainerHelpArea" editable="false" prefHeight="766.0" prefWidth="683.0" styleClass="help-bg" text="%text.openContainerHelp" visible="false" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TextArea fx:id="openContainerHelpArea" editable="false" styleClass="help-bg" text="%text.openContainerHelp" visible="false" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextArea>
-                  <TextArea fx:id="closeContainerHelpArea" editable="false" prefHeight="766.0" prefWidth="683.0" styleClass="help-bg" text="%text.closeContainerHelp" visible="false" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TextArea fx:id="closeContainerHelpArea" editable="false" styleClass="help-bg" text="%text.closeContainerHelp" visible="false" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextArea>
-                  <TextArea fx:id="alterContainerHelpArea" editable="false" prefHeight="766.0" prefWidth="683.0" styleClass="help-bg" text="%text.alterContainerHelp" visible="false" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TextArea fx:id="alterContainerHelpArea" editable="false" styleClass="help-bg" text="%text.alterContainerHelp" visible="false" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextArea>
-                  <Button layoutX="380.0" layoutY="713.0" mnemonicParsing="false" onAction="#cancel" text="%button.cancel" AnchorPane.rightAnchor="160.0">
+                  <Button mnemonicParsing="false" onAction="#cancel" text="%button.cancel" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="160.0">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button layoutX="530.0" layoutY="713.0" mnemonicParsing="false" onAction="#doIt" text="%button.next" AnchorPane.rightAnchor="20.0">
+                  <Button mnemonicParsing="false" onAction="#doIt" text="%button.next" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Pane fx:id="containerView" layoutX="14.0" layoutY="14.0" prefHeight="660.0" prefWidth="660.0" visible="false" />
+                  <Pane fx:id="containerView" visible="false" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children></AnchorPane>
   </items>
 </SplitPane>
