@@ -5,6 +5,9 @@ package utils;
 
 import java.io.File;
 import java.util.Locale;
+import java.util.ResourceBundle;
+
+import javafx.collections.ObservableList;
 
 public class SysProps 
 {
@@ -50,7 +53,24 @@ public class SysProps
 	 */
 	public static Locale getSystemLocale()
 	{
+		if(customLocale != null)
+			return customLocale;
 		return Locale.getDefault();
 	}
 	
+	public void setCustomLocale(Locale locale)
+	{
+		SysProps.customLocale = locale;
+	}
+	private static Locale customLocale = null;
+	
+	public static ObservableList<Locale> getImplementedLocales() 
+	{
+		ObservableList<Locale> retVal = null;
+//		ResourceBundle resources = ResourceBundle.getBundle("application/language/yact");
+//		 
+//		while(resources.getLocale() != null)
+//			retVal.add(resources.getLocale()); 
+		return retVal;
+	}
 }

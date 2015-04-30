@@ -13,14 +13,17 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="660.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ui.close.CCController">
+<AnchorPane prefHeight="518.0" prefWidth="683.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ui.close.CCController">
    <children>
-      <Label layoutX="14.0" layoutY="14.0" text="%label.list.openContainers" />
-      <ListView layoutX="14.0" layoutY="34.0" prefHeight="200.0" prefWidth="420.0" />
-      <Button layoutX="330.0" layoutY="235.0" mnemonicParsing="false" text="%button.closeAll" AnchorPane.rightAnchor="225.0">
+      <Label text="%label.list.openContainers" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <ListView prefHeight="200.0" prefWidth="220.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="34.0" />
+      <Button mnemonicParsing="false" text="%button.closeAll" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="235.0">
          <tooltip>
             <Tooltip text="%tooltip.closeAll" />
          </tooltip>
       </Button>
+      <TextArea fx:id="helpCloseOpen" editable="false" prefWidth="377.0" styleClass="help-bg" text="%help.closeOpenContainers" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpCloseAll" editable="false" layoutX="302.0" layoutY="24.0" onMouseEntered="#helpCloseAllShow" onMouseExited="#helpCloseAllHide" prefWidth="377.0" styleClass="help-bg" text="%help.closeAll" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <Pane fx:id="helpView" prefWidth="377.0" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
    </children>
 </AnchorPane>

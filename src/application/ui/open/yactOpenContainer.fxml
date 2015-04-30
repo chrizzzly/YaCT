@@ -13,7 +13,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="660.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ui.open.OCController">
+<AnchorPane prefHeight="518.0" prefWidth="683.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ui.open.OCController">
    <children>
       <Label layoutX="14.0" layoutY="14.0" text="%label.path" />
       <TextField layoutX="14.0" layoutY="34.0" prefHeight="25.0" prefWidth="228.0">
@@ -43,5 +43,10 @@
             <Tooltip text="%tooltip.keyfile.add" />
          </tooltip>
       </Button>
+      <TextArea fx:id="helpPath" editable="false" layoutX="469.0" layoutY="14.0" onMouseEntered="#helpPathShow" onMouseExited="#helpPathHide" prefWidth="377.0" styleClass="help-bg" text="%help.path" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpPasswordUse" editable="false" layoutX="302.0" layoutY="24.0" onMouseEntered="#helpPasswordUseShow" onMouseExited="#helpPasswordUseHide" prefWidth="377.0" styleClass="help-bg" text="%help.password.use" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpKeyfilesUse" editable="false" layoutX="302.0" layoutY="24.0" onMouseEntered="#helpKeyfilesUseShow" onMouseExited="#helpKeyfilesUseHide" prefWidth="377.0" styleClass="help-bg" text="%help.keyfiles.use" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpKeyfilesAdd" editable="false" layoutX="302.0" layoutY="24.0" onMouseEntered="#helpKeyfilesAddShow" onMouseExited="#helpKeyfilesAddHide" prefWidth="377.0" styleClass="help-bg" text="%help.keyfiles.add" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <Pane fx:id="helpView" prefWidth="377.0" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
    </children>
 </AnchorPane>
