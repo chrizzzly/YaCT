@@ -32,8 +32,5 @@ Description of what is or isn't functioning
 + [application.ui.main.about]	Added 'About YaCT'
 + [application.language]		Added 'About' to the properties
 + [application.ui.main]			Added interface for the buttons 'Cancel' and 'Next'
-<<<<<<< HEAD
 + [YaCT]						Moved Project to GitHub (private)
-=======
-+ [YaCT]						Moved the project to gitHub (https://github.com/chrizzzly/YaCT)
->>>>>>> master
+
