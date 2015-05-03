@@ -11,17 +11,30 @@ import java.security.SecureRandom;
  *
  */
 public class Random
-{
+{	
 	/**
 	 * Generates a Byte array with random data
 	 * @param length the length of the byte array 
 	 * @return returns byte[] with random data
 	 */
-	public byte[] generateRandom(int length)
+	public byte[] generateRandomByte(int length)
 	{
 		byte[] retVal = new byte[length];
 		SecureRandom rand = new SecureRandom();
 		rand.nextBytes(retVal);
+		return retVal;
+	}
+	
+	
+	/**
+	 * Generates a random int
+	 * @return returns random int
+	 */
+	public int generateRandomInt()
+	{
+		int retVal = 1;
+		SecureRandom rand = new SecureRandom();
+		rand.nextInt(retVal);
 		return retVal;
 	}
 }

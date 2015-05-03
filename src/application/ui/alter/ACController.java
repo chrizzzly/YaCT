@@ -21,6 +21,8 @@ public class ACController
 	private TextArea helpPassword;
 	@FXML
 	private TextArea helpKeyfiles;
+	@FXML
+	private TextArea helpPasswordUse;
 	
 	@FXML
 	private Pane helpView;
@@ -66,7 +68,21 @@ public class ACController
 		//onMouseOut
 		helpKeyfiles.visibleProperty().set(false);
 	}
-
+	
+	@FXML
+	private void helpPasswordUseShow()
+	{
+		//onMouseOver
+		helpPasswordUse.visibleProperty().set(!helpView.isVisible());
+	}
+	
+	@FXML
+	private void helpPasswordUseHide()
+	{
+		//onMouseOut
+		helpPasswordUse.visibleProperty().set(false);
+	}
+	
 	
 	
 

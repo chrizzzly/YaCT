@@ -9,5 +9,10 @@ public enum HashAlgorithms
 	RIPEMD,
 	Whirlpool,
 	SHA512,
-	SHA2
+	SHA256;
+
+	public static HashAlgorithms getHashAlgorithm() 
+	{
+		return null;
+	}
 }

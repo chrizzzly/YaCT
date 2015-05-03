@@ -2,6 +2,7 @@ package application.ui.main.settings;
 
 import java.util.Locale;
 
+import application.UiLoader;
 import utils.SysProps;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -44,7 +45,7 @@ public class SController
         assert helpLanguage != null : "fx:id=\"helpLanguage\" was not injected: check your FXML file 'yactSettings.fxml'.";
         assert helpView != null : "fx:id=\"helpView\" was not injected: check your FXML file 'yactSettings.fxml'.";
 
-        languagePicker.itemsProperty().set(SysProps.getImplementedLocales());
+        languagePicker.itemsProperty().set(SysProps.getImplementedLocales(UiLoader.getBundle()));
         languagePicker.setValue(SysProps.getSystemLocale());
     }
 }

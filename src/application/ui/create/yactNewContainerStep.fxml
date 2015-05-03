@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="518.0" prefWidth="683.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ui.create.NCStepController">
+   <children>
+      <Pane fx:id="helpView" prefWidth="377.0" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpStep" editable="false" layoutX="475.0" layoutY="14.0" prefWidth="377.0" text="%help.newContainer.step" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpBlocksize" editable="false" prefWidth="377.0" text="%help.newContainer.blocksize" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpFS" editable="false" prefWidth="377.0" text="%help.newContainer.fs" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <Label text="%label.fs" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <ComboBox fx:id="fsField" onMouseEntered="#helpFSShow" onMouseExited="#helpFSHide" prefWidth="150.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="34.0" />
+      <Label text="%label.blocksize" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="74.0" />
+      <TextField fx:id="bsField" onMouseEntered="#helpBSShow" onMouseExited="#helpBSHide" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="94.0" />
+      <Label text="%label.iv" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="174.0" />
+      <TextField fx:id="ivField" editable="false" prefWidth="200.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="194.0" />
+   </children>
+</AnchorPane>

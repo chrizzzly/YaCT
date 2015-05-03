@@ -4,6 +4,7 @@
 package application.ui.create;
 
 import java.io.File;
+import java.util.Date;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,11 +25,11 @@ import utils.Mode;
 import utils.SysProps;
 import application.newContainer.NewContainer;
 import application.ui.main.ISubController;
+import application.ui.main.YactController;
 
 public class NCController implements ISubController<NewContainer>
 {
 	private FileChooser chooser;
-	private NewContainer nc;
 	private ObservableList<HashAlgorithms> hashes;
 	private ObservableList<Algorithms> algorithms;
 	private ObservableList<Mode> modes;
@@ -37,7 +38,6 @@ public class NCController implements ISubController<NewContainer>
 	public NCController()
 	{
 		chooser = new FileChooser();
-		nc = new NewContainer();
 		hashes = FXCollections.observableArrayList();
 		hashes.addAll(HashAlgorithms.values());
 		
@@ -195,11 +195,10 @@ public class NCController implements ISubController<NewContainer>
 		chooser.setInitialFileName(SysProps.getUserhome());
 		File selectedFile = chooser.showOpenDialog(new Stage());
 		pathField.setText(selectedFile.getPath());
-		nc.setPath(selectedFile.getPath());
 		return selectedFile;
 	}
 	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ToggleGroup for Radio Buttons
     @FXML
     private ToggleGroup groupNewContainer;
@@ -220,8 +219,6 @@ public class NCController implements ISubController<NewContainer>
     	hashLabel.visibleProperty().set(false);
     	algLabel.visibleProperty().set(false);
     	modeLabel.visibleProperty().set(false);
-		nc.setAlgorithm(Algorithms.AES);
-		nc.setHash(HashAlgorithms.Whirlpool);
     }
     
     @FXML
@@ -235,7 +232,7 @@ public class NCController implements ISubController<NewContainer>
     	modeField.visibleProperty().set(true);
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Need to be filled by User
     @FXML
     private RadioButton rbS;
@@ -259,7 +256,7 @@ public class NCController implements ISubController<NewContainer>
     private TextField pathField;
 
     
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Only needed on custom mode
     @FXML
     private ComboBox<HashAlgorithms> hashField;
@@ -285,6 +282,7 @@ public class NCController implements ISubController<NewContainer>
         assert sizeField != null : "fx:id=\"sizeField\" was not injected: check your FXML file 'yactNewContainer.fxml'.";
         assert algField != null : "fx:id=\"algField\" was not injected: check your FXML file 'yactNewContainer.fxml'.";
 
+        
 		hashField.itemsProperty().set(hashes);
 		hashField.setValue(HashAlgorithms.Whirlpool);
 		
@@ -307,11 +305,45 @@ public class NCController implements ISubController<NewContainer>
 	}
 
 	@Override
-	public NewContainer doIt() 
+	public void doIt(NewContainer object) 
 	{
+		object.setAlgorithm(algField.getValue());
+		object.setHash(hashField.getValue());
+		object.setMode(modeField.getValue());
 		
-//		nc.getAlgorithm()==null ? AES : Algorithm
-//		nc.setAlgorithm();
-		return nc;	
+		try
+		{
+			if(pwField.getText() == pwFieldRepeat.getText())
+				object.setPassword(pwField.getText().toCharArray());
+		}
+		catch(Exception e)
+		{
+			// Passwords do not match exception
+			e.printStackTrace();
+		}
+		
+		if(pathField.getText() == null)
+		{
+			Date date = new Date();
+			object.setPath(SysProps.getUserhome() + "NewContainer" + date.toString() + ".container");
+			System.out.println(object.getPath());
+		}
+		else
+		{
+			object.setPath(pathField.getText());
+		}
+		
+		int size = Integer.parseInt(sizeField.getText());
+		
+		object.setSize(size);
+		
+		object.setUnit(sizeFieldUnit.getValue().charAt(0));
+	}
+
+
+	@Override
+	public Class<?> getExpectedClass() 
+	{
+		return NewContainer.class;
 	}
 }

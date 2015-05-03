@@ -4,7 +4,8 @@
 package application.ui.main;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
+import java.util.HashMap;
+import java.util.Map;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -12,10 +13,16 @@ import javafx.scene.Parent;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import application.UiLoader;
+import application.alterContainer.AlterContainer;
+import application.closeContainer.CloseContainer;
+import application.newContainer.NewContainer;
+import application.openContainer.OpenContainer;
 
-public class YactController implements ISubController
+public class YactController
 {	
-	ResourceBundle resources;
+	private SubWindow activeSubWindow;
+	
+	private Map<Class,Object> objectMap = new HashMap<Class,Object>();
 	
 	@FXML
 	private TextArea newContainerHelpArea;
@@ -30,7 +37,8 @@ public class YactController implements ISubController
 	private Pane containerView;
 	
 	
-	private Parent newContainerPane;
+	private SubWindow newContainerPane;
+	private SubWindow newContainerStepPane;
 	private Parent openContainerPane;
 	private Parent closeContainerPane;
 	private Parent alterContainerPane;
@@ -40,7 +48,13 @@ public class YactController implements ISubController
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public YactController() throws IOException
 	{
+		objectMap.put(NewContainer.class, new NewContainer());
+		objectMap.put(OpenContainer.class, new OpenContainer());
+		objectMap.put(CloseContainer.class, new CloseContainer());
+		objectMap.put(AlterContainer.class, new AlterContainer());
+		
 		newContainerPane = UiLoader.loadNewContainerUI();
+		newContainerStepPane = UiLoader.loadNewContainerStepUI();
 		openContainerPane = UiLoader.loadOpenContainerUI();
 		closeContainerPane = UiLoader.loadCloseContainerUI();
 		alterContainerPane = UiLoader.loadAlterContainerUI();
@@ -82,7 +96,16 @@ public class YactController implements ISubController
 	{
 		System.out.println("NewContainerPane clicked");
 		containerView.getChildren().clear();
-		containerView.getChildren().add(newContainerPane);
+		containerView.getChildren().add(newContainerPane.getParent());
+		containerView.setVisible(true);
+	}
+	
+	@FXML
+	private void newContainerStepPaneFire()
+	{
+		System.out.println("NewContainerStep 'next' clicked");
+		containerView.getChildren().clear();
+		containerView.getChildren().add(newContainerStepPane.getParent());
 		containerView.setVisible(true);
 	}
 	
@@ -223,19 +246,42 @@ public class YactController implements ISubController
 		containerView.setVisible(true);
 	}
 	
-	@FXML
-	@Override
-	public void cancel() 
-	{	
+	public void cancel()
+	{
 		
 	}
 
 	@FXML
-	@Override
 	public Object doIt() 
 	{
+		Object retVal = null;
+		
+//		if(activeSubWindow != null)
+//			retVal = activeSubWindow.getController().doIt(retVal);
+//		
+//		if(retVal.getClass() == NewContainer.class)
+//		{
+//			System.out.println("newContainerWeiter clicked");
+//			containerView.getChildren().clear();
+//			containerView.getChildren().add(newContainerStepPane);
+//			containerView.setVisible(true);
+//		}
+		
 		return null;
 	}
 
+	public void doIt(Object object) 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Class getExpectedClass() 
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 
 }

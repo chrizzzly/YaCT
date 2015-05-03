@@ -26,7 +26,7 @@
             <Tooltip text="%tooltip.standardContainer" />
          </tooltip>
       </RadioButton>
-      <TextArea fx:id="helpStandard" editable="false" layoutX="477.0" layoutY="10.0" prefWidth="377.0" styleClass="help-bg" text="%help.standard" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpStandard" editable="false" layoutX="477.0" layoutY="10.0" prefWidth="377.0" styleClass="help-bg" text="%help.standard" visible="false" wrapText="true" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <RadioButton fx:id="rbC" mnemonicParsing="false" onAction="#toggleCustom" onMouseEntered="#helpCustomShow" onMouseExited="#helpCustomHide" text="%rb.custom" toggleGroup="$groupNewContainer" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font size="14.0" />
@@ -35,7 +35,7 @@
             <Tooltip text="%tooltip.customContainer" />
          </tooltip>
       </RadioButton>
-      <TextArea fx:id="helpCustom" editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.custom" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpCustom" editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.custom" visible="false" wrapText="true" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <Label text="%label.password" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="50.0" />
       <Label text="%label.password.repeat" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="110.0" />
       <PasswordField fx:id="pwField" onMouseEntered="#helpPasswordShow" onMouseExited="#helpPasswordHide" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="70.0">
@@ -48,14 +48,14 @@
             <Tooltip text="%tooltip.password" />
          </tooltip>
       </PasswordField>
-      <TextArea fx:id="helpPassword" editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.password" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpPassword" editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.password" visible="false" wrapText="true" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <TextField fx:id="pathField" onMouseEntered="#helpPathShow" onMouseExited="#helpPathHide" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="190.0">
          <tooltip>
             <Tooltip text="%tooltip.path" />
          </tooltip>
       </TextField>
       <Label text="%label.path" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="170.0" />
-      <TextArea fx:id="helpPath" editable="false" prefWidth="377.0" styleClass="help-bg" text="%help.path" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpPath" editable="false" prefWidth="377.0" styleClass="help-bg" text="%help.path" visible="false" wrapText="true" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <Button mnemonicParsing="false" onAction="#buttonOpen" onMouseEntered="#helpPathShow" onMouseExited="#helpPathHide" text="..." AnchorPane.leftAnchor="214.0" AnchorPane.topAnchor="190.0">
          <tooltip>
             <Tooltip text="%tooltip.path.choose" />
@@ -67,7 +67,7 @@
          </tooltip>
       </TextField>
       <Label text="%label.size" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="230.0" />
-      <TextArea fx:id="helpSize" editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.size" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpSize" editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.size" visible="false" wrapText="true" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <ComboBox fx:id="sizeFieldUnit" onMouseEntered="#helpSizeShow" onMouseExited="#helpSizeHide" prefHeight="25.0" prefWidth="62.0" AnchorPane.leftAnchor="164.0" AnchorPane.topAnchor="250.0">
          <tooltip>
             <Tooltip text="%tooltip.size.unit" />
@@ -91,9 +91,9 @@
             <Tooltip text="%tooltip.mode" />
          </tooltip>
       </ComboBox>
-      <TextArea fx:id="helpAlgorithm" editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.algorithm" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
-      <TextArea fx:id="helpMode" editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.mode" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
-      <TextArea fx:id="helpHash" editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.hash" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpAlgorithm" editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.algorithm" visible="false" wrapText="true" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpMode" editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.mode" visible="false" wrapText="true" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="helpHash" editable="false" layoutX="302.0" layoutY="24.0" prefWidth="377.0" styleClass="help-bg" text="%help.hash" visible="false" wrapText="true" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <Pane fx:id="helpView" prefWidth="377.0" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
    </children>
 </AnchorPane>

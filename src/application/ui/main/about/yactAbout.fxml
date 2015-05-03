@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="518.0" prefWidth="683.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ui.main.about.AController">
    <children>
-      <TextArea fx:id="aboutTextArea" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="418.0" prefWidth="632.0" styleClass="help-bg" text="%text.about" AnchorPane.bottomAnchor="220.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextArea fx:id="aboutTextArea" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="418.0" prefWidth="632.0" styleClass="help-bg" text="%text.about" wrapText="true" AnchorPane.bottomAnchor="220.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
       <Hyperlink layoutX="14.0" layoutY="535.0" text="%link.about" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
    </children>

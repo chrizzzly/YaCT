@@ -5,5 +5,7 @@ public interface ISubController<T>
 {
     void cancel();
 
-    T doIt();
+    void doIt(T object);
+    
+    Class<?> getExpectedClass();
 }

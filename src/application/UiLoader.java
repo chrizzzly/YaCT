@@ -4,15 +4,18 @@
 package application;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import utils.SysProps;
+import application.ui.main.ISubController;
+import application.ui.main.SubWindow;
 
 public class UiLoader 
 {	
+	private static ResourceBundle bundle = null;
+	
 	/**
 	 * Loads the FXML files for the GUI
 	 * @param path The path of the FXML file in the Project
@@ -26,6 +29,19 @@ public class UiLoader
 		return root;
 	}
 	
+	private static SubWindow loadSubFile(String path, ResourceBundle resources) throws IOException
+	{
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource(path), resources);
+		
+		Parent parent = loader.load();
+		ISubController controller = loader.<ISubController>getController();
+		
+		SubWindow window = new SubWindow();
+		window.setParent(parent);
+		window.setController(controller);
+		
+		return window;
+	}
 	/**
 	 * Loads the ResourceBundle for the GUI
 	 * @param path The path of the FXML file in the Project
@@ -34,7 +50,13 @@ public class UiLoader
 	private static ResourceBundle loadBundle(String path)
 	{
 		ResourceBundle resources = ResourceBundle.getBundle(path, SysProps.getSystemLocale());
+		bundle = resources;
 		return resources;
+	}
+	
+	public static ResourceBundle getBundle()
+	{
+		return bundle;
 	}
 	
 	/**
@@ -50,10 +72,10 @@ public class UiLoader
 		return root;
 	}
 	
-	public static Parent loadNewContainerUI() throws IOException
+	public static SubWindow loadNewContainerUI() throws IOException
 	{
 		ResourceBundle resources = loadBundle("application/language/yact");
-		Parent pane = loadFile("ui/create/yactNewContainer.fxml", resources);
+		SubWindow pane = loadSubFile("ui/create/yactNewContainer.fxml", resources);
 		
 		return pane;
 	}
@@ -94,6 +116,14 @@ public class UiLoader
 	{
 		ResourceBundle resources = loadBundle("application/language/yact");
 		Parent pane = loadFile("ui/main/settings/yactSettings.fxml", resources);
+		
+		return pane;
+	}
+	
+	public static SubWindow loadNewContainerStepUI() throws IOException
+	{
+		ResourceBundle resources = loadBundle("application/language/yact");
+		SubWindow pane = loadSubFile("ui/create/yactNewContainerStep.fxml", resources);
 		
 		return pane;
 	}

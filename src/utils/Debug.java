@@ -4,19 +4,12 @@
 
 package utils;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.security.GeneralSecurityException;
-import java.util.HashMap;
-import java.util.Map;
 
-import javafx.stage.Stage;
-import filehandling.FileCreateContainer;
-import filehandling.FileOpen;
 import security.Crypt;
+import security.InitVector;
+import filehandling.FileCreateContainer;
 
 /**
  * @author Christian Hoppe
@@ -64,8 +57,9 @@ public class Debug
 	
 	private static String thirdtest() throws Exception 
 	{
-//		Stage primaryStage = null;
-//		FileOpen.start(primaryStage);
+//		InitVector iv = new InitVector();
+//		iv.InitVector();
+		
 		
 		return "thirdtest fertig";
 			

@@ -9,6 +9,7 @@ Symbols are:
 '+' Added Features
 '-' Fixed
 '*' Altered
+'#' Comment
 
 Example usage:
 MajorRealease.MinorRelease.BugfixNumber-state Date DD.MM.YYYY

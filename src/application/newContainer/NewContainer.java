@@ -4,11 +4,10 @@
 
 package application.newContainer;
 
-import security.Hash;
 import utils.Algorithms;
+import utils.Filesystems;
 import utils.HashAlgorithms;
-
-import com.sun.javafx.scene.traversal.Algorithm;
+import utils.Mode;
 
 
 public class NewContainer 
@@ -16,11 +15,13 @@ public class NewContainer
 
 	
 	private int size;
-	private int blocksize;
+	private int blocksize = 4;
 	private char unit;  
+	private Filesystems fs;
 		
 	private Algorithms algorithm;
 	private HashAlgorithms hash;
+	private Mode mode;
 	private char[] password;
 	
 	private String path;
@@ -31,7 +32,8 @@ public class NewContainer
 		size = size==0 ? 50 : size;
 		blocksize = blocksize==0 ? 4 : blocksize;
 		
-		
+//		InitVector iv = new InitVector();
+//		iv.InitVector();
 	}
 	
 	public void setSize(int i)
@@ -88,6 +90,21 @@ public class NewContainer
 	public void setPath(String path) 
 	{
 		this.path = path;
+	}
+
+	public Mode getMode()
+	{
+		return mode;
+	}
+	
+	public void setMode(Mode value) 
+	{
+		this.mode = value;
+	}
+
+	public void setFileSystem(Filesystems fs) 
+	{
+		this.fs = fs;
 	}
 
 

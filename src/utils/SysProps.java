@@ -64,11 +64,9 @@ public class SysProps
 	}
 	private static Locale customLocale = null;
 	
-	public static ObservableList<Locale> getImplementedLocales() 
+	public static ObservableList<Locale> getImplementedLocales(ResourceBundle resources) 
 	{
-		ObservableList<Locale> retVal = null;
-//		ResourceBundle resources = ResourceBundle.getBundle("application/language/yact");
-//		 
+		ObservableList<Locale> retVal = null;		 
 //		while(resources.getLocale() != null)
 //			retVal.add(resources.getLocale()); 
 		return retVal;
