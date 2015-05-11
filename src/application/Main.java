@@ -5,6 +5,9 @@ package application;
 	
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.security.Security;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -18,6 +21,7 @@ public class Main extends Application
 	@Override
 	public void start(Stage primaryStage) 
 	{
+		Security.addProvider(new BouncyCastleProvider());
 		try 
 		{
 			Parent root = UiLoader.loadMainUI();

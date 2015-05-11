@@ -4,8 +4,10 @@
 package application.ui.create;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
+import filehandling.FileHeader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -36,7 +38,7 @@ public class NCController implements ISubController<NewContainer>
 	private ObservableList<String> units;
 	
 	public NCController()
-	{
+	{	
 		chooser = new FileChooser();
 		hashes = FXCollections.observableArrayList();
 		hashes.addAll(HashAlgorithms.values());
@@ -305,8 +307,9 @@ public class NCController implements ISubController<NewContainer>
 	}
 
 	@Override
-	public void doIt(NewContainer object) 
+	public void doIt(NewContainer object)
 	{
+		System.out.println("NCController doIt with object");
 		object.setAlgorithm(algField.getValue());
 		object.setHash(hashField.getValue());
 		object.setMode(modeField.getValue());
@@ -322,6 +325,7 @@ public class NCController implements ISubController<NewContainer>
 			e.printStackTrace();
 		}
 		
+		
 		if(pathField.getText() == null)
 		{
 			Date date = new Date();
@@ -333,11 +337,16 @@ public class NCController implements ISubController<NewContainer>
 			object.setPath(pathField.getText());
 		}
 		
+		System.out.println(object.getPath());
+		
 		int size = Integer.parseInt(sizeField.getText());
 		
 		object.setSize(size);
 		
 		object.setUnit(sizeFieldUnit.getValue().charAt(0));
+		
+		//TODO das muss in den NCStepController
+		FileHeader.writeHeader(true, object.getPassword(), object.getAlgorithm(), object.getHash(), object.getPath());
 	}
 
 

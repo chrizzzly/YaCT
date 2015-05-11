@@ -17,11 +17,14 @@ import application.alterContainer.AlterContainer;
 import application.closeContainer.CloseContainer;
 import application.newContainer.NewContainer;
 import application.openContainer.OpenContainer;
+import application.ui.create.NCController;
+import application.ui.create.NCStepController;
 
 public class YactController
 {	
 	private SubWindow activeSubWindow;
 	
+	//Helper for exchangeing objects from subwindow to subwindow
 	private Map<Class,Object> objectMap = new HashMap<Class,Object>();
 	
 	@FXML
@@ -98,6 +101,7 @@ public class YactController
 		containerView.getChildren().clear();
 		containerView.getChildren().add(newContainerPane.getParent());
 		containerView.setVisible(true);
+		activeSubWindow = newContainerPane;
 	}
 	
 	@FXML
@@ -107,6 +111,7 @@ public class YactController
 		containerView.getChildren().clear();
 		containerView.getChildren().add(newContainerStepPane.getParent());
 		containerView.setVisible(true);
+		activeSubWindow = newContainerStepPane;
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -251,37 +256,22 @@ public class YactController
 		
 	}
 
-	@FXML
-	public Object doIt() 
+	public void doIt()
+    {
+          Object activeObject = objectMap.get(activeSubWindow.getController().getExpectedClass());
+          activeSubWindow.getController().doIt(activeObject.getClass().cast(activeObject));
+    }
+
+
+
+	public Class<?> getExpectedClass(Object object) 
 	{
-		Object retVal = null;
-		
-//		if(activeSubWindow != null)
-//			retVal = activeSubWindow.getController().doIt(retVal);
-//		
-//		if(retVal.getClass() == NewContainer.class)
-//		{
-//			System.out.println("newContainerWeiter clicked");
-//			containerView.getChildren().clear();
-//			containerView.getChildren().add(newContainerStepPane);
-//			containerView.setVisible(true);
-//		}
-		
-		return null;
+		return object.getClass();
 	}
 
-	public void doIt(Object object) 
+	public void setActiveSubWindow(SubWindow sw)
 	{
-		// TODO Auto-generated method stub
-		
+		this.activeSubWindow = sw;
 	}
-
-	public Class getExpectedClass() 
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
-
 }

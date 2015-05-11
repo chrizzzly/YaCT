@@ -1,19 +1,35 @@
 package application.ui.create;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import security.InitVector;
 import utils.Filesystems;
-import utils.Mode;
+import utils.HashAlgorithms;
 import application.newContainer.NewContainer;
 import application.ui.main.ISubController;
 
 public class NCStepController implements ISubController<NewContainer>
 {
 	private ObservableList<Filesystems> filesystems;
+	private InitVector iv = new InitVector();
+	
+	public NCStepController()
+	{
+		filesystems = FXCollections.observableArrayList();
+		filesystems.addAll(Filesystems.values());
+	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//HelpArea
@@ -96,7 +112,16 @@ public class NCStepController implements ISubController<NewContainer>
 
         fsField.itemsProperty().set(filesystems);
 		fsField.setValue(Filesystems.NTFS);
+		
+		new Thread(new Runnable() 
+		{
+		    public void run() 
+		    {
+		    	ivField.setText(iv.InitVector());
+		    }
+		}).start();
     }
+
 
 	@Override
 	public void cancel() 
@@ -109,10 +134,21 @@ public class NCStepController implements ISubController<NewContainer>
 	@Override
 	public void doIt(NewContainer object) 
 	{
+		System.out.println("NCStepController doIt with object");
 		int blocksize = Integer.parseInt(bsField.getText());
 		object.setBlocksize(blocksize);
 		
 		object.setFileSystem(fsField.getValue());
+		
+		///////////////////////////////////////////
+		try 
+		{
+			writeFileAsBytes(object.getPath(),object.getPassword().toString().getBytes());
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -121,4 +157,27 @@ public class NCStepController implements ISubController<NewContainer>
 	{
 		return NewContainer.class;
 	}
+	
+	
+	/**
+	 * Write an array of bytes to a file. Presumably this is binary data; for plain text
+	 * use the writeFile method.
+	 */
+	private static void writeFileAsBytes(String fullPath, byte[] bytes) throws IOException
+	{
+	  OutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(fullPath));
+	  InputStream inputStream = new ByteArrayInputStream(bytes);
+	  int token = -1;
+	 
+	  while((token = inputStream.read()) != -1)
+	  {
+	    bufferedOutputStream.write(token);
+	  }
+	  bufferedOutputStream.flush();
+	  bufferedOutputStream.close();
+	  inputStream.close();
+	}
+	
+
+	
 }

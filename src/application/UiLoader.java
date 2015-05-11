@@ -14,6 +14,9 @@ import application.ui.main.SubWindow;
 
 public class UiLoader 
 {	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//Utils
 	private static ResourceBundle bundle = null;
 	
 	/**
@@ -29,6 +32,7 @@ public class UiLoader
 		return root;
 	}
 	
+
 	private static SubWindow loadSubFile(String path, ResourceBundle resources) throws IOException
 	{
 		FXMLLoader loader = new FXMLLoader(Main.class.getResource(path), resources);
@@ -59,6 +63,10 @@ public class UiLoader
 		return bundle;
 	}
 	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//Main Window
+	
 	/**
 	 * Loads the Main Window of the application
 	 * @return Returns the parent element
@@ -72,6 +80,14 @@ public class UiLoader
 		return root;
 	}
 	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//Windows with SubWindows
+	
+	/**
+	 * Loads the NewContainer SubWindow of the application
+	 * @return Returns the subwindow
+	 * @throws IOException
+	 */
 	public static SubWindow loadNewContainerUI() throws IOException
 	{
 		ResourceBundle resources = loadBundle("application/language/yact");
@@ -80,6 +96,27 @@ public class UiLoader
 		return pane;
 	}
 	
+	/**
+	 * Loads the NewContainer SubWindow of the application
+	 * @return Returns the subwindow
+	 * @throws IOException
+	 */
+	public static SubWindow loadNewContainerStepUI() throws IOException
+	{
+		ResourceBundle resources = loadBundle("application/language/yact");
+		SubWindow pane = loadSubFile("ui/create/yactNewContainerStep.fxml", resources);
+		
+		return pane;
+	}
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//One-Window Screens
+	/**
+	 * Loads the OpenContainer Window of the application
+	 * @return Returns the parent element
+	 * @throws IOException
+	 */
 	public static Parent loadOpenContainerUI() throws IOException
 	{
 		ResourceBundle resources = loadBundle("application/language/yact");
@@ -88,6 +125,11 @@ public class UiLoader
 		return pane;
 	}
 	
+	/**
+	 * Loads the CloseContainer Window of the application
+	 * @return Returns the parent element
+	 * @throws IOException
+	 */
 	public static Parent loadCloseContainerUI() throws IOException
 	{
 		ResourceBundle resources = loadBundle("application/language/yact");
@@ -96,6 +138,11 @@ public class UiLoader
 		return pane;
 	}
 	
+	/**
+	 * Loads the AlterContainer Window of the application
+	 * @return Returns the parent element
+	 * @throws IOException
+	 */
 	public static Parent loadAlterContainerUI() throws IOException
 	{
 		ResourceBundle resources = loadBundle("application/language/yact");
@@ -104,6 +151,11 @@ public class UiLoader
 		return pane;
 	}
 
+	/**
+	 * Loads the About Window of the application
+	 * @return Returns the parent element
+	 * @throws IOException
+	 */
 	public static Parent loadAboutUI() throws IOException
 	{
 		ResourceBundle resources = loadBundle("application/language/yact");
@@ -112,6 +164,11 @@ public class UiLoader
 		return pane;
 	}
 	
+	/**
+	 * Loads the Settings Window of the application
+	 * @return Returns the parent element
+	 * @throws IOException
+	 */
 	public static Parent loadSettingsUI() throws IOException
 	{
 		ResourceBundle resources = loadBundle("application/language/yact");
@@ -120,12 +177,6 @@ public class UiLoader
 		return pane;
 	}
 	
-	public static SubWindow loadNewContainerStepUI() throws IOException
-	{
-		ResourceBundle resources = loadBundle("application/language/yact");
-		SubWindow pane = loadSubFile("ui/create/yactNewContainerStep.fxml", resources);
-		
-		return pane;
-	}
+
 	
 }

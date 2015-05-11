@@ -19,6 +19,8 @@ import org.bouncycastle.util.Arrays;
 import org.bouncycastle.util.encoders.Base64;
 
 import security.Random;
+import utils.Algorithms;
+import utils.HashAlgorithms;
 import utils.SysProps;
 
 
@@ -40,9 +42,9 @@ public class FileHeader
 	 * <li>FILEEXISTIS is returned, if the file exists and {@code force} is set to false</li>
 	 * <li>SUCCESS will be returned, if no error occurred</li></ul>
 	 */
-	public static retCodes writeHeader(boolean force, byte[] password, byte[] ca, byte[] ha) //CA und HA!!
+	public static retCodes writeHeader(boolean force, char[] password, Algorithms ca, HashAlgorithms ha, String path)
 	{
-		File outPath = new File(SysProps.getUserhome());
+		File outPath = new File(path);
 		File outFile = new File(outPath, "test.txt");
 		
 		if(!outPath.exists())
@@ -58,7 +60,6 @@ public class FileHeader
 		//try(PrintWriter print = new PrintWriter(new FileOutputStream(outFile)))
 		try(FileOutputStream print = new FileOutputStream(outFile))
 		{
-			//TODO Betriebssystemabhängiges schreiben der neuen zeile!
 			//TODO Reihenfolge
 			//1. Algorithmus
 			//2. Hashalgorithmus
@@ -66,27 +67,36 @@ public class FileHeader
 			//4. Key mit gepeppertem PW verschlüsselt
 			
 			Random rand = new Random();
-			byte[] pepper = rand.generateRandomByte(0);
+			char[] pepper = rand.generateRandomChar(128);
 			
-			//print.println(Base64.encode(ca.getBytes("UTF-8")));
-			print.write(Base64.encode(ca));
+			print.write(ca.hashCode());
+			System.out.println(ca.hashCode());
 			print.flush();
 			print.write("\n".getBytes("UTF-8"));
-//			print.write(SysProps.getLinebreak());
 			print.flush();
 			
-			//print.println(Base64.encode(pepper));
-			print.write(Base64.encode(pepper));
+			print.write(ha.hashCode());
+			System.out.println(ha.hashCode());
+			print.flush();
 			print.write("\n".getBytes("UTF-8"));
 			print.flush();
+			
+			print.write(pepper.hashCode());
+			System.out.println(pepper.hashCode());
+			print.write("\n".getBytes("UTF-8"));
+			print.flush();
+			
 			
 			//Append Pepper to Password
-			byte[] peppered = Arrays.concatenate(password, pepper);
+			//char[] peppered = Arrays.concatenate(password, pepper).toString().getBytes();
+			StringBuilder sb = new StringBuilder(0);
+			sb.append(password);
+			sb.append(pepper);
+			char[] peppered = sb.toString().toCharArray();
 			
-			//TODO Hash the peppered password
-
-			//print.println(Base64.encode(peppered));
-			print.write(Base64.encode(peppered));
+			
+			print.write(peppered.hashCode());
+			System.out.println(peppered.hashCode());
 			print.write("\n".getBytes("UTF-8"));
 			print.flush();
 			

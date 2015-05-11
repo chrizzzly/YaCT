@@ -4,21 +4,21 @@ import java.awt.MouseInfo;
 
 public class InitVector 
 {
-	public void InitVector()
+	public String InitVector()
 	{
-		doTheMath();
+		return doTheMath();
 	}
 	
 	private boolean nextIsClicked = false;
 	
-	private long doTheMath()
+	private String doTheMath()
 	{
-		long retVal = 0;
+		String ret = null;
 		long x = 0;
 		long y = 0;
 		
 		Random rand = new Random();
-		long z = rand.generateRandomInt();
+		Long z = (long) rand.generateRandomInt();
 		y = (long) MouseInfo.getPointerInfo().getLocation().getY();
 		x = (long) MouseInfo.getPointerInfo().getLocation().getX();
 		
@@ -40,14 +40,14 @@ public class InitVector
 			}
 			y = (long) MouseInfo.getPointerInfo().getLocation().getY();
 			x = (long) MouseInfo.getPointerInfo().getLocation().getX();
-			System.out.println(z);
 		}
 		while(!nextIsClicked);
-		
-		return retVal;
+		ret = z.toString();
+		System.out.println(z);
+		return ret;
 	}
 
-	public boolean isNextIsClicked() 
+	public boolean isNextClicked() 
 	{
 		return nextIsClicked;
 	}
