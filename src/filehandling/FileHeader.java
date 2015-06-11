@@ -12,16 +12,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
-import java.util.Base64.Encoder;
-import java.util.Base64.Decoder;
-
-import org.bouncycastle.util.Arrays;
-import org.bouncycastle.util.encoders.Base64;
 
 import security.Random;
-import utils.Algorithms;
-import utils.HashAlgorithms;
-import utils.SysProps;
+import application.newContainer.NewContainer;
 
 
 
@@ -42,12 +35,12 @@ public class FileHeader
 	 * <li>FILEEXISTIS is returned, if the file exists and {@code force} is set to false</li>
 	 * <li>SUCCESS will be returned, if no error occurred</li></ul>
 	 */
-	public static retCodes writeHeader(boolean force, char[] password, Algorithms ca, HashAlgorithms ha, String path)
+	public static retCodes writeHeader(NewContainer object, boolean force)
 	{
-		File outPath = new File(path);
-		File outFile = new File(outPath, "test.txt");
+		File outPath = new File(object.getPath()).getParentFile();
+		File outFile = new File(object.getPath());
 		
-		if(!outPath.exists())
+		if(outPath != null && !outPath.exists())
 		{
 			outPath.mkdirs();
 		}
@@ -57,49 +50,33 @@ public class FileHeader
 			return retCodes.FILEEXISTS;
 		}
 		
-		//try(PrintWriter print = new PrintWriter(new FileOutputStream(outFile)))
-		try(FileOutputStream print = new FileOutputStream(outFile))
+		
+		//try(FileOutputStream print = new FileOutputStream(outFile))
+		try(PrintWriter print = new PrintWriter(new FileOutputStream(outFile)))
 		{
 			//TODO Reihenfolge
-			//1. Algorithmus
-			//2. Hashalgorithmus
+			//1. Algorithmus CHECK
+			//2. Hashalgorithmus CHECK
 			//3. Pepper mit PW verschlüsselt EBC
 			//4. Key mit gepeppertem PW verschlüsselt
 			
 			Random rand = new Random();
-			char[] pepper = rand.generateRandomChar(128);
-			
-			print.write(ca.hashCode());
-			System.out.println(ca.hashCode());
-			print.flush();
-			print.write("\n".getBytes("UTF-8"));
-			print.flush();
-			
-			print.write(ha.hashCode());
-			System.out.println(ha.hashCode());
-			print.flush();
-			print.write("\n".getBytes("UTF-8"));
-			print.flush();
-			
-			print.write(pepper.hashCode());
-			System.out.println(pepper.hashCode());
-			print.write("\n".getBytes("UTF-8"));
-			print.flush();
-			
+			byte[] pepper = rand.generateRandomByte(128);
+			print.println(beginHeader());
+			print.println(object.getAlgorithm());
+			print.println(object.getHash());
+			print.println(pepper);
 			
 			//Append Pepper to Password
-			//char[] peppered = Arrays.concatenate(password, pepper).toString().getBytes();
-			StringBuilder sb = new StringBuilder(0);
-			sb.append(password);
-			sb.append(pepper);
-			char[] peppered = sb.toString().toCharArray();
+			for(int i = 0; i < object.getPassword().length && i < pepper.length; i++)
+			{
+				pepper[i] = object.getPassword()[i];
+			}
+			
+			print.println(pepper);
 			
 			
-			print.write(peppered.hashCode());
-			System.out.println(peppered.hashCode());
-			print.write("\n".getBytes("UTF-8"));
-			print.flush();
-			
+			print.println(endHeader());
 			return retCodes.SUCCESS;
 		}
 		catch (IOException e)
@@ -112,9 +89,9 @@ public class FileHeader
 		
 	}
 
-	public static void readHeader()
+	public void readHeader(String path)
 	{
-		File inFile = new File(SysProps.getUserhome(), "test.txt");
+		File inFile = new File(path);
 		String line;
 		
 		try
@@ -127,7 +104,7 @@ public class FileHeader
 			for(int i = 0; i <= 2; i++)
 			{
 				if((line = br.readLine()) == null)
-					throw new IOException("No Containerfile Error");
+					throw new IOException("No Containerfile");
 				//System.out.println(line);
 			}
 		}
@@ -137,4 +114,76 @@ public class FileHeader
 		}
 	}
 
+	public static int getFirstLineAfterHeader(String path)
+	{
+		int retVal = 0;
+		String temp = "";
+		File inFile = new File(path);
+		
+		try
+			(
+			InputStream is = new FileInputStream(inFile);
+			InputStreamReader isr = new InputStreamReader(is, Charset.forName("UTF-8"));
+			BufferedReader br = new BufferedReader(isr)
+			)
+		{
+			for(; !temp.equals(endHeader()) ;retVal++)
+			{
+				temp = br.readLine();
+			}
+	    } 
+		catch (IOException e) 
+		{
+		e.printStackTrace();
+		}
+		
+		
+		
+		return retVal;
+	}
+	
+	public static long getHeaderSize(String path) 
+	{
+		long retVal = 0;
+//		String temp = "";
+//		File inFile = new File(path);
+//		
+//		try
+//			(
+//			InputStream is = new FileInputStream(inFile);
+//			InputStreamReader isr = new InputStreamReader(is, Charset.forName("UTF-8"));
+//			BufferedReader br = new BufferedReader(isr)
+//			)
+//		{
+//			for(; !temp.equals(endHeader()) ;retVal+=temp.length())
+//			{
+//				temp = br.readLine();
+//			}
+//	    } 
+//		catch (IOException e) 
+//		{
+//		e.printStackTrace();
+//		}
+		
+		
+		retVal = 16384;
+		
+		return retVal;
+	}
+	
+	private static String beginHeader()
+	{
+		StringBuffer retVal = new StringBuffer();
+		retVal.append("#BeginHeader#");
+		return retVal.toString();
+	}
+	
+	private static String endHeader()
+	{
+		StringBuffer retVal = new StringBuffer();
+		retVal.append("#EndHeader#");
+		return retVal.toString();
+	}
+
+	
 }

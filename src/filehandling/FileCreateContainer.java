@@ -1,34 +1,81 @@
 package filehandling;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.security.GeneralSecurityException;
+
+import security.Random;
+import utils.Algorithms;
+import utils.HashAlgorithms;
+import utils.Mode;
+import application.newContainer.NewContainer;
 
 
 public class FileCreateContainer 
 {
-	String unit;
-	int size;
-	int blocksize;
-	static Map<String,String> env = new HashMap<>();
+	private char unit;
+	private int size;
+	private Algorithms ca;
+	private Mode mode;
+	private HashAlgorithms hash;
+	private String path;
+	private long offset;
+	private long actualSize;
+	private byte[] key;
 	
 	/**
 	 * Creates the Environment for the formatting of the new virtual drive
 	 * @param unit is the unit after the size "M" or "G"
 	 * @param size is the size of the new drive 
-	 * @param blocksize is the blocksize o f the new drive 
 	 */
-	public static void setEnvVars(String unit, int size, int blocksize)
+	public FileCreateContainer(NewContainer object) 
 	{
-		unit = unit.equals(null) ? "M" : unit;  
-		size = size==0 ? 50 : size;
-		blocksize = blocksize==0 ? 4 : blocksize;
+		this.unit = object.getUnit();  
+		this.size = object.getSize();
+		this.ca = object.getAlgorithm();
+		this.mode = object.getMode();
+		this.path = object.getPath();
+		this.hash = object.getHash();
+	}
+
+	
+	public void doIt() throws GeneralSecurityException
+	{
+		if(unit == 'M')
+			actualSize = size * 1024L * 1024L;
+		else if(unit =='G')
+			actualSize = size * 1024L * 1024L * 1024L;
 		
-		env.put("capacity", size + unit);
-		env.put("blockSize", blocksize + "k");
+		File theContainer = new File(path);
+		offset = FileHeader.getHeaderSize(path);
+		System.out.println(offset);
+		
+		Random rand = new Random();
+		byte[] temp;
+		
+		try
+		(FileOutputStream out = new FileOutputStream(theContainer, true))
+		{
+			FileChannel ch = out.getChannel().position(offset);
+		    
+			while(theContainer.length() < actualSize)
+			{
+				temp = rand.generateRandomByte(512);
+				//fos.write(Crypt.encrypt(temp, key.getEncoded(), ca, hash));
+				ch.write(ByteBuffer.wrap(temp));
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
 	
-	public static HashMap getEnvVars()
-	{
-		return (HashMap) env;
-	}
+
 }

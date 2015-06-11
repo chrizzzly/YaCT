@@ -65,6 +65,13 @@
                <font>
                   <Font size="14.0" />
                </font>
+                     <contextMenu>
+                        <ContextMenu fx:id="test">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu>
             </Button>
                   <ImageView fx:id="appLogo" fitHeight="150.0" fitWidth="150.0" layoutX="14.0" layoutY="602.0" pickOnBounds="true" preserveRatio="true" />
          </children></AnchorPane>

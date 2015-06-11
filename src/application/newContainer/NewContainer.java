@@ -4,6 +4,8 @@
 
 package application.newContainer;
 
+import java.util.Arrays;
+
 import utils.Algorithms;
 import utils.Filesystems;
 import utils.HashAlgorithms;
@@ -15,14 +17,12 @@ public class NewContainer
 
 	
 	private int size;
-	private int blocksize = 4;
 	private char unit;  
-	private Filesystems fs;
 		
 	private Algorithms algorithm;
 	private HashAlgorithms hash;
 	private Mode mode;
-	private char[] password;
+	private byte[] password;
 	
 	private String path;
 		
@@ -30,7 +30,7 @@ public class NewContainer
 	public NewContainer()
 	{	
 		size = size==0 ? 50 : size;
-		blocksize = blocksize==0 ? 4 : blocksize;
+
 		
 //		InitVector iv = new InitVector();
 //		iv.InitVector();
@@ -41,9 +41,9 @@ public class NewContainer
 		this.size = i;
 	}
 	
-	public void setBlocksize(int i)
+	public int getSize() 
 	{
-		this.blocksize = i;
+		return size;
 	}
 	
 	public void setUnit(char c)
@@ -51,6 +51,10 @@ public class NewContainer
 		this.unit = c;
 	}
 	
+	public char getUnit()
+	{
+		return unit;
+	}
 
 	public Algorithms getAlgorithm() 
 	{
@@ -72,12 +76,12 @@ public class NewContainer
 		this.hash = hash;
 	}
 
-	public char[] getPassword() 
+	public byte[] getPassword() 
 	{
 		return password;
 	}
 
-	public void setPassword(char[] password) 
+	public void setPassword(byte[] password) 
 	{
 		this.password = password;
 	}
@@ -102,12 +106,14 @@ public class NewContainer
 		this.mode = value;
 	}
 
-	public void setFileSystem(Filesystems fs) 
+
+	@Override
+	public String toString()
 	{
-		this.fs = fs;
+		return Arrays.toString(password);
 	}
 
-
+	
 
 
 }

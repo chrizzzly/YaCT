@@ -5,8 +5,13 @@ package application.ui.create;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.security.InvalidParameterException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import filehandling.FileCreateContainer;
 import filehandling.FileHeader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,10 +19,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -26,6 +33,7 @@ import utils.HashAlgorithms;
 import utils.Mode;
 import utils.SysProps;
 import application.newContainer.NewContainer;
+import application.ui.ControllerValidationException;
 import application.ui.main.ISubController;
 import application.ui.main.YactController;
 
@@ -71,6 +79,8 @@ public class NCController implements ISubController<NewContainer>
 	private TextArea helpMode;
 	@FXML
 	private TextArea helpHash;
+	@FXML
+	private TextArea helpProgress;
 	
 	@FXML
 	private Pane helpView;
@@ -269,8 +279,18 @@ public class NCController implements ISubController<NewContainer>
     @FXML
     private ComboBox<Algorithms> algField;
     
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // After validation and while Container is created
+    @FXML
+    private AnchorPane progressView;
 
+    @FXML
+    private ProgressBar progressBar;
 
+    
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 
     @FXML
     void initialize() 
     {
@@ -307,46 +327,39 @@ public class NCController implements ISubController<NewContainer>
 	}
 
 	@Override
-	public void doIt(NewContainer object)
+	public void doIt(NewContainer object) throws ControllerValidationException, GeneralSecurityException
 	{
 		System.out.println("NCController doIt with object");
-		object.setAlgorithm(algField.getValue());
-		object.setHash(hashField.getValue());
-		object.setMode(modeField.getValue());
 		
-		try
+		if(validate())
 		{
-			if(pwField.getText() == pwFieldRepeat.getText())
-				object.setPassword(pwField.getText().toCharArray());
-		}
-		catch(Exception e)
-		{
-			// Passwords do not match exception
-			e.printStackTrace();
-		}
-		
-		
-		if(pathField.getText() == null)
-		{
-			Date date = new Date();
-			object.setPath(SysProps.getUserhome() + "NewContainer" + date.toString() + ".container");
-			System.out.println(object.getPath());
+			helpProgress.visibleProperty().set(true);
+			progressView.visibleProperty().set(true);
+			progressBar.visibleProperty().set(true);
+			progressBar.setProgress(-1.0f);
+			
+			object.setAlgorithm(algField.getValue());
+			object.setHash(hashField.getValue());
+			object.setMode(modeField.getValue());
+			object.setPassword(pwField.getText().getBytes());
+			object.setPath(pathField.getText());
+			
+			int size = Integer.parseInt(sizeField.getText());
+			object.setSize(size);
+			
+			object.setUnit(sizeFieldUnit.getValue().charAt(0));
+			
+			System.out.println(object);
+			//TODO prüfen ob datei vorhanden und nachfragen
+			FileHeader.writeHeader(object, true);
+			
+			System.out.println(FileHeader.getHeaderSize(object.getPath()));
+			FileCreateContainer newContainer = new FileCreateContainer(object);
+	
+			newContainer.doIt();
 		}
 		else
-		{
-			object.setPath(pathField.getText());
-		}
-		
-		System.out.println(object.getPath());
-		
-		int size = Integer.parseInt(sizeField.getText());
-		
-		object.setSize(size);
-		
-		object.setUnit(sizeFieldUnit.getValue().charAt(0));
-		
-		//TODO das muss in den NCStepController
-		FileHeader.writeHeader(true, object.getPassword(), object.getAlgorithm(), object.getHash(), object.getPath());
+			throw new ControllerValidationException();
 	}
 
 
@@ -355,4 +368,46 @@ public class NCController implements ISubController<NewContainer>
 	{
 		return NewContainer.class;
 	}
+	
+	@Override
+	public boolean validate() 
+	{
+		boolean retVal = true;
+		//In reverse order
+		
+		// check size
+		if(sizeField.getText().equals("") )
+		{
+			retVal = false;
+			//Größe ist leer
+		}
+		
+		// check path
+		if(pathField.getText().equals("") )
+		{
+			retVal = false;
+			//Pfad ist leer
+		}
+		
+		// check passwords match
+		if( !(pwField.getText().equals(pwFieldRepeat.getText())) )
+		{
+			retVal = false;
+			//Passwörter stimmen nicht überein
+		}
+		
+		// check password empty
+		if(pwField.getText().equals("") )
+		{
+			retVal = false;
+			//Passwörter sind leer
+		}
+		
+		
+		
+		
+		
+		return retVal;
+	}
+	
 }

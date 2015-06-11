@@ -62,6 +62,7 @@ public class SysProps
 	{
 		SysProps.customLocale = locale;
 	}
+	
 	private static Locale customLocale = null;
 	
 	public static ObservableList<Locale> getImplementedLocales(ResourceBundle resources) 

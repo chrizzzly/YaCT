@@ -9,6 +9,9 @@ import java.util.Arrays;
 
 import javax.crypto.*;
 
+import utils.Algorithms;
+import utils.HashAlgorithms;
+
 
 /**
  * @author Christian Hoppe
@@ -25,14 +28,14 @@ public class Crypt
 	 * @param hashalg is the Hashingalgoritm as a String
 	 * @return returns an encrypted block
 	 */
-	public static byte[] encrypt(byte[] input, byte[] key, String cryptoalg, String hashalg) throws GeneralSecurityException
+	public static byte[] encrypt(byte[] input, byte[] key, Algorithms cryptoalg, HashAlgorithms hashalg) throws GeneralSecurityException
 	{
 		
 		byte[] retVal = null;
 		byte[] hash = null;
 		
-		Cipher.getInstance(cryptoalg,"BC" ).getProvider();
-		int maxKeyLength = Cipher.getMaxAllowedKeyLength(cryptoalg);
+		Cipher.getInstance(cryptoalg.toString(),"BC" ).getProvider();
+		int maxKeyLength = Cipher.getMaxAllowedKeyLength(cryptoalg.toString());
 		System.out.println("Key: " + Arrays.toString(key));
 		if(key.length > maxKeyLength)
 		{
@@ -40,7 +43,7 @@ public class Crypt
 		}
 		else
 		{
-			MessageDigest md = MessageDigest.getInstance(hashalg);
+			MessageDigest md = MessageDigest.getInstance(hashalg.toString());
 			md.update(key);
 			hash = md.digest();
 			System.out.println("Key: " + Arrays.toString(key));

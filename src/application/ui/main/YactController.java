@@ -4,6 +4,7 @@
 package application.ui.main;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import application.alterContainer.AlterContainer;
 import application.closeContainer.CloseContainer;
 import application.newContainer.NewContainer;
 import application.openContainer.OpenContainer;
+import application.ui.ControllerValidationException;
 import application.ui.create.NCController;
 import application.ui.create.NCStepController;
 
@@ -258,8 +260,15 @@ public class YactController
 
 	public void doIt()
     {
-          Object activeObject = objectMap.get(activeSubWindow.getController().getExpectedClass());
-          activeSubWindow.getController().doIt(activeObject.getClass().cast(activeObject));
+		Object activeObject = objectMap.get(activeSubWindow.getController().getExpectedClass());
+		try 
+		{
+			activeSubWindow.getController().doIt(activeObject.getClass().cast(activeObject));
+		} 
+		catch (ControllerValidationException | GeneralSecurityException e) 
+		{
+			e.printStackTrace();
+		}
     }
 
 

@@ -5,6 +5,8 @@
 package security;
 
 import java.security.SecureRandom;
+import java.util.Base64;
+import java.util.Base64.Encoder;
 
 
 /**
@@ -42,10 +44,33 @@ public class Random
 	
 	public char[] generateRandomChar(int length)
 	{
-		byte[] retVal = new byte[length];
+		byte[] temp = new byte[length];
+		char[] retVal = new char[length];
 		SecureRandom rand = new SecureRandom();
-		rand.nextBytes(retVal);
-		return retVal.toString().toCharArray();
+		rand.nextBytes(temp);
+		
+		for(int i = 0; i < temp.length; i++)
+		{
+			retVal[i] = (char) temp[i];
+		}
+		return retVal;
+	}
+	
+	public char[] generateRandomPepper(int length)
+	{
+		Encoder base64 = Base64.getEncoder();
+		SecureRandom rand = new SecureRandom();
+		
+		byte[] temp = new byte[4];
+		char[] retVal = new char[length];
+		
+		for(int i = 0; i < retVal.length; i++)
+		{
+			rand.nextBytes(temp);
+			
+			retVal[i] = (char) base64.encode(temp)[0];
+		}
+		return retVal;
 	}
 	
 	

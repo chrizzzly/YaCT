@@ -41,15 +41,15 @@ public class Debug
 		String key = "Der sollte möglichst lang sein!";
 		String cryptoalg = "Serpent";
 		String hashalg = "Whirlpool";
-		Crypt.encrypt(input.getBytes("UTF-16"), key.getBytes("UTF-16"), cryptoalg, hashalg);
+		//Crypt.encrypt(input.getBytes("UTF-16"), key.getBytes("UTF-16"), cryptoalg, hashalg);
 		return "firsttest fertig";
 			
 	}
 	
 	private static String secondtest() throws UnsupportedEncodingException, GeneralSecurityException 
 	{
-		FileCreateContainer.setEnvVars("G", 128, 8);
-		System.out.println(FileCreateContainer.getEnvVars());
+//		FileCreateContainer.setEnvVars("G", 128, 8);
+//		System.out.println(FileCreateContainer.getEnvVars());
 		
 		return "secondtest fertig";
 			

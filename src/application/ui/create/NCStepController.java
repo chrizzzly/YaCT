@@ -20,6 +20,7 @@ import utils.HashAlgorithms;
 import application.newContainer.NewContainer;
 import application.ui.main.ISubController;
 
+@Deprecated
 public class NCStepController implements ISubController<NewContainer>
 {
 	private ObservableList<Filesystems> filesystems;
@@ -135,20 +136,6 @@ public class NCStepController implements ISubController<NewContainer>
 	public void doIt(NewContainer object) 
 	{
 		System.out.println("NCStepController doIt with object");
-		int blocksize = Integer.parseInt(bsField.getText());
-		object.setBlocksize(blocksize);
-		
-		object.setFileSystem(fsField.getValue());
-		
-		///////////////////////////////////////////
-		try 
-		{
-			writeFileAsBytes(object.getPath(),object.getPassword().toString().getBytes());
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
 		
 	}
 
@@ -159,25 +146,9 @@ public class NCStepController implements ISubController<NewContainer>
 	}
 	
 	
-	/**
-	 * Write an array of bytes to a file. Presumably this is binary data; for plain text
-	 * use the writeFile method.
-	 */
-	private static void writeFileAsBytes(String fullPath, byte[] bytes) throws IOException
-	{
-	  OutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(fullPath));
-	  InputStream inputStream = new ByteArrayInputStream(bytes);
-	  int token = -1;
-	 
-	  while((token = inputStream.read()) != -1)
-	  {
-	    bufferedOutputStream.write(token);
-	  }
-	  bufferedOutputStream.flush();
-	  bufferedOutputStream.close();
-	  inputStream.close();
-	}
 	
-
+	@Override
+	public boolean validate() 
+	{return true;}
 	
 }
