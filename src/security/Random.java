@@ -8,11 +8,6 @@ import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Base64.Encoder;
 
-
-/**
- * @author Christian Hoppe
- *
- */
 public class Random
 {	
 	
@@ -42,6 +37,11 @@ public class Random
 		return retVal;
 	}
 	
+	/**
+	 * Generates a char array with random data
+	 * @param length the length of the char array 
+	 * @return returns char[] with random data
+	 */
 	public char[] generateRandomChar(int length)
 	{
 		byte[] temp = new byte[length];
@@ -56,6 +56,11 @@ public class Random
 		return retVal;
 	}
 	
+	/**
+	 * Generates a char array with random data for peppered passwords encoded with Base64
+	 * @param length the length of the char array 
+	 * @return returns char[] with random data
+	 */
 	public char[] generateRandomPepper(int length)
 	{
 		Encoder base64 = Base64.getEncoder();

@@ -12,8 +12,8 @@ import javafx.collections.ObservableList;
 public class SysProps 
 {
 	/**
-	 * Helper for system Linebrak
-	 * @return returns the system linebrake
+	 * Helper for system Linebreak
+	 * @return returns the system linebreak
 	 */
 	public static String getLinebreak()
 	{
@@ -58,6 +58,10 @@ public class SysProps
 		return Locale.getDefault();
 	}
 	
+	/**
+	 * Helper for custom language
+	 * @param locale the custom locale
+	 */
 	public void setCustomLocale(Locale locale)
 	{
 		SysProps.customLocale = locale;
@@ -65,11 +69,20 @@ public class SysProps
 	
 	private static Locale customLocale = null;
 	
+	/**
+	 * Helper for custom language Dropdown-Menu
+	 * @param resources the ResourceBundle of YaCT
+	 * @return returns the ObservableList of included locales
+	 */
 	public static ObservableList<Locale> getImplementedLocales(ResourceBundle resources) 
 	{
 		ObservableList<Locale> retVal = null;		 
 //		while(resources.getLocale() != null)
-//			retVal.add(resources.getLocale()); 
+//		{
+//			retVal.add(resources.getLocale());
+//		}
+		
+		
 		return retVal;
 	}
 }

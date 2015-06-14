@@ -18,6 +18,8 @@ import utils.Debug;
 
 public class Main extends Application 
 {
+	private String version = "0.7.0";
+	
 	@Override
 	public void start(Stage primaryStage) 
 	{
@@ -28,7 +30,7 @@ public class Main extends Application
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("yact.css").toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("YaCT");
+			primaryStage.setTitle("YaCT" + " " + version);
 			primaryStage.show();
 		} 
 		catch(Exception e) 
@@ -41,15 +43,13 @@ public class Main extends Application
 	{
 		try 
 		{
+			// Debug informations
 			System.out.println(Debug.debugMsg());
 		} 
 		catch (Exception e) 
 		{
 			e.printStackTrace();
 		}
-		
-//		FileHeader.writeHeader(true, "123".getBytes("UTF-8"), "456".getBytes("UTF-8"), "789".getBytes("UTF-8"));
-//		FileHeader.readHeader();
 		launch(args);
 	}
 }

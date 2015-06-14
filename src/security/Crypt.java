@@ -13,11 +13,6 @@ import utils.Algorithms;
 import utils.HashAlgorithms;
 
 
-/**
- * @author Christian Hoppe
- * 
- */
-
 public class Crypt 
 {
 	/**
@@ -39,7 +34,7 @@ public class Crypt
 		System.out.println("Key: " + Arrays.toString(key));
 		if(key.length > maxKeyLength)
 		{
-			//TODO wenn der Key länger ist als er darf
+			//TODO wenn der Key länger ist als er darf -> trim
 		}
 		else
 		{
@@ -63,7 +58,7 @@ public class Crypt
 	 */
 	public byte[] decrypt(byte[] input, byte[] key, String cryptoalg, String hashalg) throws GeneralSecurityException
 	{
-		
+		//TODO
 		return null;
 	}
 	

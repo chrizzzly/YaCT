@@ -19,6 +19,14 @@ public class UiLoader
 	//Utils
 	private static ResourceBundle bundle = null;
 	
+	public static ResourceBundle getBundle()
+	{
+		if (bundle == null)
+			bundle = loadBundle("application/language/yact");
+		return bundle;
+	}
+	
+	
 	/**
 	 * Loads the FXML files for the GUI
 	 * @param path The path of the FXML file in the Project
@@ -63,13 +71,6 @@ public class UiLoader
 		ResourceBundle resources = ResourceBundle.getBundle(path, SysProps.getSystemLocale());
 		bundle = resources;
 		return resources;
-	}
-	
-	public static ResourceBundle getBundle()
-	{
-		if (bundle == null)
-			return loadBundle("application/language/yact");
-		return bundle;
 	}
 	
 	
