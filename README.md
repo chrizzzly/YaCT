@@ -52,7 +52,19 @@ mvn -q -pl yact-ui javafx:run
 | Signatures (optional)    | ML-DSA-65 (FIPS 204), SLH-DSA (FIPS 205)        |
 
 All primitives come from BouncyCastle (`bcprov-jdk18on`); YaCT implements no
-cryptographic algorithms itself.
+cryptographic algorithms itself. The file format is specified in
+[docs/container-format.md](docs/container-format.md).
+
+## Progress
+
+| Milestone | Content | Status |
+|---|---|---|
+| 1 | Maven build, crypto self-test | done |
+| 2 | Container header, password key slots, chunked data encryption | done |
+| 3 | Hybrid post-quantum key slot (ML-KEM + X25519) | open |
+| 4 | Container operations: create, open, add/extract/delete files | open |
+| 5 | Connect the JavaFX UI | open |
+| 6 | Remove legacy code, documentation | open |
 
 ## License
 
