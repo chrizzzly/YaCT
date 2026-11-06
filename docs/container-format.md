@@ -8,12 +8,72 @@ All integers are unsigned and big-endian. Sizes are in bytes.
 ## Overview
 
 ```
-offset 0        header area, 65 536 bytes (fixed)
-offset 65 536   encrypted data (layout defined in milestone 4)
+offset 0         header copy A, 65 536 bytes
+offset 65 536    header copy B, 65 536 bytes
+offset 131 072   superblock slot 0, 128 bytes
+offset 131 200   superblock slot 1, 128 bytes
+offset 131 328   data area: encrypted file contents and index versions
 ```
 
 The header area has a fixed size, so adding or removing key slots never moves
 the encrypted data. Bytes after the header's MAC are zero.
+
+### Crash safety
+
+- **Data area:** file contents and index versions are only ever appended.
+  A commit appends the new index, forces the file to disk, then writes the
+  superblock slot not holding the current state, and forces again.
+- **Superblocks:** the valid slot with the higher generation is current. If
+  that write is torn, the other slot still describes the previous state.
+- **Header copies:** key slot changes write copy B, force, then copy A, force.
+  A reader tries A, then B if it differs. After opening, both copies are set
+  to the one that opened. So a crash never leaves the container unopenable,
+  and a removed key slot does not survive in the second copy.
+- Bytes appended by an operation that never committed are unused space.
+
+## Superblock
+
+| Size | Field |
+|---|---|
+| 16 | salt, fresh for every write |
+| 56 | AEAD (container cipher, all-zero nonce) of the next four fields + tag |
+| | 8 generation · 16 index stream salt · 8 index offset · 8 index length |
+| 56 | zero |
+
+Key = stream key for the salt; associated data = `"YaCT v1 superblock"`. The
+salt is new for every write, so the fixed nonce is never reused under one key.
+Generation *g* is written to slot *g* mod 2.
+
+## Index
+
+The table of contents, stored as one encrypted stream with associated data
+`"YaCT v1 index"`. Each commit writes a complete new index.
+
+| Size | Field |
+|---|---|
+| 4 | number of entries |
+| | per entry: |
+| 2 + n | path length, path (UTF-8) |
+| 8 | plaintext size |
+| 8 | last modified, milliseconds since 1970-01-01T00:00Z |
+| 16 | stream salt of the content |
+| 8 | offset of the encrypted content in the file |
+| 8 | length of the encrypted content |
+
+Paths are relative, use `/`, are in Unicode NFC and contain no empty, `.` or
+`..` segments, backslashes or control characters (at most 4096 UTF-8 bytes).
+This rules out writing outside the target directory on extraction. A file and
+a directory may not share a name.
+
+File contents are encrypted streams with associated data `"YaCT v1 file"`.
+
+## Deleting and compaction
+
+Deleting or replacing a file only removes it from the index; its encrypted
+content stays in the file until compaction. Compaction writes a new container
+next to the old one, copying the header, the live encrypted contents (without
+decrypting them) and a new index, and atomically replaces the old file.
+Its generation continues from the old one.
 
 ## Key hierarchy
 
@@ -183,6 +243,9 @@ only once its final chunk has been verified.
   with an older copy of itself.
 - **Removed key slots in old copies:** removing a slot does not help against
   someone who copied the container while the slot existed.
+- **Deleted files before compaction:** whoever has the container file and a
+  key can recover them. Compaction cannot erase copies that the file system,
+  backups or an SSD kept elsewhere.
 - **Metadata:** the file size reveals roughly how much data is stored, and the
   header shows how many password and public-key slots exist.
 - **Fake public keys:** YaCT cannot tell whether a public key really belongs to

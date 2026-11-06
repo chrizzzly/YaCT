@@ -58,6 +58,19 @@ public final class ByteReader
 		return v;
 	}
 
+	/** Reads an unsigned 64-bit value that must fit into a long. */
+	public long u63() throws FormatException
+	{
+		need(8);
+		long v = 0;
+		for (int i = 0; i < 8; i++)
+			v = (v << 8) | (data[pos + i] & 0xFF);
+		pos += 8;
+		if (v < 0)
+			throw new FormatException("value out of range");
+		return v;
+	}
+
 	public byte[] bytes(int n) throws FormatException
 	{
 		need(n);

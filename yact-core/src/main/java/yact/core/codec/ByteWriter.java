@@ -38,6 +38,16 @@ public final class ByteWriter
 		return this;
 	}
 
+	/** Writes a non-negative 64-bit value. */
+	public ByteWriter u63(long v)
+	{
+		if (v < 0)
+			throw new IllegalArgumentException("u63 out of range: " + v);
+		for (int shift = 56; shift >= 0; shift -= 8)
+			out.write((int) (v >>> shift));
+		return this;
+	}
+
 	public ByteWriter bytes(byte[] b)
 	{
 		out.writeBytes(b);
