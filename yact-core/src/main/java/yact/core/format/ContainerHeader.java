@@ -10,9 +10,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import yact.core.codec.ByteReader;
+import yact.core.codec.ByteWriter;
+import yact.core.codec.FormatException;
 import yact.core.crypto.CipherSuite;
 import yact.core.crypto.Kdf;
 import yact.core.crypto.Passwords;
+import yact.core.pq.HybridKeyPair;
 
 /**
  * The header at the start of every container file.
@@ -101,6 +105,22 @@ public final class ContainerHeader
 	{
 		if (area.length != AREA_SIZE)
 			throw new ContainerFormatException("header area must be " + AREA_SIZE + " bytes");
+		try
+		{
+			return parseArea(area);
+		}
+		catch (ContainerFormatException e)
+		{
+			throw e;
+		}
+		catch (FormatException e)
+		{
+			throw new ContainerFormatException(e.getMessage());
+		}
+	}
+
+	private static ContainerHeader parseArea(byte[] area) throws FormatException
+	{
 
 		ByteReader r = new ByteReader(area);
 		if (!Arrays.equals(r.bytes(MAGIC.length), MAGIC))
@@ -128,7 +148,12 @@ public final class ContainerHeader
 		{
 			int type = r.u8();
 			byte[] slotBody = r.bytes(r.u16());
-			slots.add(type == PasswordKeySlot.TYPE ? PasswordKeySlot.decode(slotBody) : new UnknownKeySlot(type, slotBody));
+			slots.add(switch (type)
+			{
+				case PasswordKeySlot.TYPE -> PasswordKeySlot.decode(slotBody);
+				case HybridKeySlot.TYPE -> HybridKeySlot.decode(slotBody);
+				default -> new UnknownKeySlot(type, slotBody);
+			});
 		}
 
 		byte[] mac = r.bytes(MAC_LENGTH);
@@ -148,20 +173,45 @@ public final class ContainerHeader
 	public UnlockedHeader unlock(char[] password) throws InvalidCredentialsException, IntegrityException
 	{
 		for (KeySlot slot : keySlots)
-		{
-			if (!(slot instanceof PasswordKeySlot ps))
-				continue;
-			byte[] masterKey = ps.tryUnwrap(password, cipherSuite, containerId);
-			if (masterKey == null)
-				continue;
-			if (!verifyMac(masterKey))
+			if (slot instanceof PasswordKeySlot ps)
 			{
-				Passwords.wipe(masterKey);
-				throw new IntegrityException("container header was modified");
+				byte[] masterKey = ps.tryUnwrap(password, cipherSuite, containerId);
+				if (masterKey != null)
+					return verified(masterKey);
 			}
-			return new UnlockedHeader(this, masterKey);
-		}
 		throw new InvalidCredentialsException();
+	}
+
+	/**
+	 * Opens the container with a private key.
+	 *
+	 * <p>Slots do not say which key they belong to, so every slot of the key's
+	 * scheme is tried; each attempt is one ML-KEM decapsulation and one X25519
+	 * operation, well under a millisecond.
+	 *
+	 * @throws InvalidCredentialsException if no slot belongs to this key
+	 * @throws IntegrityException          if a slot opened but the header was modified
+	 */
+	public UnlockedHeader unlock(HybridKeyPair key) throws InvalidCredentialsException, IntegrityException
+	{
+		for (KeySlot slot : keySlots)
+			if (slot instanceof HybridKeySlot hs)
+			{
+				byte[] masterKey = hs.tryUnwrap(key, cipherSuite, containerId);
+				if (masterKey != null)
+					return verified(masterKey);
+			}
+		throw new InvalidCredentialsException();
+	}
+
+	private UnlockedHeader verified(byte[] masterKey) throws IntegrityException
+	{
+		if (!verifyMac(masterKey))
+		{
+			Passwords.wipe(masterKey);
+			throw new IntegrityException("container header was modified");
+		}
+		return new UnlockedHeader(this, masterKey);
 	}
 
 	boolean verifyMac(byte[] masterKey)

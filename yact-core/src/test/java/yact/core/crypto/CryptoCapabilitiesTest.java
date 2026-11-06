@@ -39,7 +39,7 @@ class CryptoCapabilitiesTest
 				.filter(CryptoCapabilities.Capability::postQuantum)
 				.map(CryptoCapabilities.Capability::name)
 				.toList();
-		assertEquals(List.of("ML-KEM-768", "ML-KEM-1024", "ML-DSA-65", "SLH-DSA-SHA2-128s"), pq);
+		assertEquals(List.of("ML-KEM-768", "ML-KEM-1024", "Hybrid KEM", "ML-DSA-65", "SLH-DSA-SHA2-128s"), pq);
 	}
 
 	// ------------------------------------------------------------ known-answer tests

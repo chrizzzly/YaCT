@@ -8,6 +8,9 @@ import java.security.SecureRandom;
 
 import org.bouncycastle.crypto.InvalidCipherTextException;
 
+import yact.core.codec.ByteReader;
+import yact.core.codec.ByteWriter;
+import yact.core.codec.FormatException;
 import yact.core.crypto.Argon2Params;
 import yact.core.crypto.CipherSuite;
 import yact.core.crypto.Kdf;
@@ -110,7 +113,7 @@ public final class PasswordKeySlot implements KeySlot
 		return encodeParams(params, salt).bytes(nonce).bytes(wrappedKey).toByteArray();
 	}
 
-	static PasswordKeySlot decode(byte[] body) throws ContainerFormatException
+	static PasswordKeySlot decode(byte[] body) throws FormatException
 	{
 		ByteReader r = new ByteReader(body);
 		Argon2Params params;

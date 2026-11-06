@@ -48,7 +48,7 @@ mvn -q -pl yact-ui javafx:run
 | Data encryption          | AES-256-GCM (default), ChaCha20-Poly1305        |
 | Password → key           | Argon2id                                        |
 | Combining secrets        | HKDF over SHA3-256                              |
-| Public-key key slot      | Hybrid ML-KEM-768/1024 (FIPS 203) + X25519      |
+| Public-key key slot      | Hybrid ML-KEM-1024 (default) or -768 (FIPS 203) + X25519 |
 | Signatures (optional)    | ML-DSA-65 (FIPS 204), SLH-DSA (FIPS 205)        |
 
 All primitives come from BouncyCastle (`bcprov-jdk18on`); YaCT implements no
@@ -61,7 +61,7 @@ cryptographic algorithms itself. The file format is specified in
 |---|---|---|
 | 1 | Maven build, crypto self-test | done |
 | 2 | Container header, password key slots, chunked data encryption | done |
-| 3 | Hybrid post-quantum key slot (ML-KEM + X25519) | open |
+| 3 | Hybrid post-quantum key slot (ML-KEM + X25519), key files | done |
 | 4 | Container operations: create, open, add/extract/delete files | open |
 | 5 | Connect the JavaFX UI | open |
 | 6 | Remove legacy code, documentation | open |

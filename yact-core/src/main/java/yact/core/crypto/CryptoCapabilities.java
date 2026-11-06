@@ -44,6 +44,10 @@ import org.bouncycastle.crypto.params.X25519KeyGenerationParameters;
 import org.bouncycastle.crypto.signers.MLDSASigner;
 import org.bouncycastle.crypto.signers.SLHDSASigner;
 
+import yact.core.pq.Hybrid;
+import yact.core.pq.HybridKem;
+import yact.core.pq.HybridKeyPair;
+
 /**
  * Checks at runtime that every cryptographic primitive YaCT relies on is
  * present and behaves correctly in the current runtime.
@@ -81,6 +85,7 @@ public final class CryptoCapabilities
 		result.add(run("X25519", "Classical half of hybrid key slot", false, CryptoCapabilities::x25519));
 		result.add(run("ML-KEM-768", "PQ key encapsulation (FIPS 203)", true, () -> mlKem(MLKEMParameters.ml_kem_768)));
 		result.add(run("ML-KEM-1024", "PQ key encapsulation (FIPS 203)", true, () -> mlKem(MLKEMParameters.ml_kem_1024)));
+		result.add(run("Hybrid KEM", "PQ key slot: ML-KEM-1024 + X25519", true, CryptoCapabilities::hybrid));
 		result.add(run("ML-DSA-65", "PQ signature (FIPS 204)", true, CryptoCapabilities::mlDsa));
 		result.add(run("SLH-DSA-SHA2-128s", "PQ hash-based signature (FIPS 205)", true, CryptoCapabilities::slhDsa));
 		return result;
@@ -247,6 +252,25 @@ public final class CryptoCapabilities
 				"tampered ciphertext gave the original secret");
 
 		return params.getName() + ", ciphertext " + enc.getEncapsulation().length + " bytes";
+	}
+
+	private static String hybrid()
+	{
+		HybridKem kem = HybridKem.DEFAULT;
+		try (HybridKeyPair key = HybridKeyPair.generate(kem, RANDOM))
+		{
+			byte[] context = random(16);
+			Hybrid.Encapsulation enc = Hybrid.encapsulate(key.publicKey(), context, RANDOM);
+			check(Arrays.equals(enc.key(), Hybrid.decapsulate(key, enc.x25519Ephemeral(), enc.mlKemCiphertext(), context)),
+					"decapsulated key differs");
+			try (HybridKeyPair other = HybridKeyPair.generate(kem, RANDOM))
+			{
+				check(!Arrays.equals(enc.key(),
+						Hybrid.decapsulate(other, enc.x25519Ephemeral(), enc.mlKemCiphertext(), context)),
+						"another key pair recovered the key");
+			}
+		}
+		return kem.displayName() + ", HKDF-SHA3-256 combiner";
 	}
 
 	// ---------------------------------------------------------------- signatures

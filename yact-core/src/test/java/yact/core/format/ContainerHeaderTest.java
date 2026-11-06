@@ -18,13 +18,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
+import java.security.SecureRandom;
+
 import yact.core.crypto.Argon2Params;
 import yact.core.crypto.CipherSuite;
+import yact.core.pq.HybridKem;
+import yact.core.pq.HybridKeyPair;
+import yact.core.pq.HybridPublicKey;
 
 class ContainerHeaderTest
 {
 	/** Far too weak for real use; keeps the tests fast. */
 	private static final Argon2Params FAST = new Argon2Params(64, 1, 1);
+	private static final SecureRandom RANDOM = new SecureRandom();
 	private static final char[] PASSWORD = "correct horse battery staple".toCharArray();
 
 	// Offsets into the header area, see the layout in ContainerHeader.
@@ -211,6 +217,91 @@ class ContainerHeaderTest
 		assertTrue(h.isDestroyed());
 		assertThrows(IllegalStateException.class, () -> h.streamKey(new byte[16]));
 		assertThrows(IllegalStateException.class, h::header);
+	}
+
+	// ------------------------------------------------------------------ hybrid (post-quantum) key slots
+
+	@ParameterizedTest
+	@EnumSource(HybridKem.class)
+	void publicKeySlotOpensWithThePrivateKey(HybridKem kem) throws Exception
+	{
+		HybridKeyPair key = HybridKeyPair.generate(kem, RANDOM);
+		byte[] area;
+		byte[] expectedStreamKey;
+		try (UnlockedHeader h = create())
+		{
+			h.addPublicKeySlot(key.publicKey());
+			area = h.header().encode();
+			expectedStreamKey = h.streamKey(new byte[16]);
+		}
+
+		ContainerHeader header = ContainerHeader.parse(area);
+		HybridKeySlot slot = assertInstanceOf(HybridKeySlot.class, header.keySlots().get(1));
+		assertEquals(kem, slot.kem());
+		try (UnlockedHeader opened = header.unlock(key))
+		{
+			assertArrayEquals(expectedStreamKey, opened.streamKey(new byte[16]));
+		}
+		assertNotNull(header.unlock(PASSWORD), "password slot still works");
+	}
+
+	@Test
+	void containerForAPublicKeyOnly() throws Exception
+	{
+		HybridKeyPair key = HybridKeyPair.generate(HybridKem.DEFAULT, RANDOM);
+		byte[] area = UnlockedHeader.create(CipherSuite.CHACHA20_POLY1305, 16, key.publicKey()).header().encode();
+
+		ContainerHeader header = ContainerHeader.parse(area);
+		assertNotNull(header.unlock(key));
+		assertThrows(InvalidCredentialsException.class, () -> header.unlock(PASSWORD));
+	}
+
+	@Test
+	void otherPrivateKeyDoesNotOpen() throws Exception
+	{
+		HybridKeyPair alice = HybridKeyPair.generate(HybridKem.DEFAULT, RANDOM);
+		HybridKeyPair mallory = HybridKeyPair.generate(HybridKem.DEFAULT, RANDOM);
+		HybridKeyPair mallory768 = HybridKeyPair.generate(HybridKem.MLKEM768_X25519, RANDOM);
+		ContainerHeader header = ContainerHeader.parse(
+				UnlockedHeader.create(CipherSuite.AES_256_GCM, 16, alice.publicKey()).header().encode());
+		assertThrows(InvalidCredentialsException.class, () -> header.unlock(mallory));
+		assertThrows(InvalidCredentialsException.class, () -> header.unlock(mallory768));
+	}
+
+	@Test
+	void anyChangeToAHybridSlotStopsItOpening() throws Exception
+	{
+		HybridKeyPair key = HybridKeyPair.generate(HybridKem.DEFAULT, RANDOM);
+		byte[] area = UnlockedHeader.create(CipherSuite.AES_256_GCM, 16, key.publicKey()).header().encode();
+		int bodyLength = 1 + 32 + HybridKem.DEFAULT.mlKemCiphertextLength() + 12 + 48;
+		// Scheme id, ephemeral key, ciphertext, nonce, wrapped key: sample positions in each field.
+		for (int i : new int[] { 1, 20, 33, 900, 33 + 1568, bodyLength - 1 })
+		{
+			byte[] bad = area.clone();
+			bad[OFFSET_FIRST_SLOT_BODY + i] ^= 1;
+			ContainerHeader header = ContainerHeader.parse(bad);
+			assertThrows(InvalidCredentialsException.class, () -> header.unlock(key), "offset " + i);
+		}
+	}
+
+	@Test
+	void headerMacIsCheckedWhenUnlockingWithAKey() throws Exception
+	{
+		HybridKeyPair key = HybridKeyPair.generate(HybridKem.DEFAULT, RANDOM);
+		byte[] area = UnlockedHeader.create(CipherSuite.AES_256_GCM, 16, key.publicKey()).header().encode();
+		area[OFFSET_CHUNK] = 17;
+		ContainerHeader header = ContainerHeader.parse(area);
+		assertThrows(IntegrityException.class, () -> header.unlock(key));
+	}
+
+	@Test
+	void sixteenLargestHybridSlotsFit() throws Exception
+	{
+		HybridPublicKey pk = HybridKeyPair.generate(HybridKem.MLKEM1024_X25519, RANDOM).publicKey();
+		UnlockedHeader h = UnlockedHeader.create(CipherSuite.AES_256_GCM, 16, pk);
+		for (int i = 1; i < ContainerHeader.MAX_KEY_SLOTS; i++)
+			h.addPublicKeySlot(pk);
+		assertEquals(ContainerHeader.MAX_KEY_SLOTS, ContainerHeader.parse(h.header().encode()).keySlots().size());
 	}
 
 	// ------------------------------------------------------------------ helpers

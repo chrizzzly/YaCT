@@ -1,44 +1,44 @@
 /*******************************************************************************
  * YaCT | (c) 2015-2026 Christian Hoppe | http://opensource.org/licenses/MIT
  ******************************************************************************/
-package yact.core.format;
+package yact.core.codec;
 
-/** Bounds-checked big-endian reader; every overrun is a {@link ContainerFormatException}. */
-final class ByteReader
+/** Bounds-checked big-endian reader; every overrun is a {@link FormatException}. */
+public final class ByteReader
 {
 	private final byte[] data;
 	private final int end;
 	private int pos;
 
-	ByteReader(byte[] data)
+	public ByteReader(byte[] data)
 	{
 		this(data, 0, data.length);
 	}
 
-	ByteReader(byte[] data, int off, int len)
+	public ByteReader(byte[] data, int off, int len)
 	{
 		this.data = data;
 		this.pos = off;
 		this.end = off + len;
 	}
 
-	int position()
+	public int position()
 	{
 		return pos;
 	}
 
-	int remaining()
+	public int remaining()
 	{
 		return end - pos;
 	}
 
-	int u8() throws ContainerFormatException
+	public int u8() throws FormatException
 	{
 		need(1);
 		return data[pos++] & 0xFF;
 	}
 
-	int u16() throws ContainerFormatException
+	public int u16() throws FormatException
 	{
 		need(2);
 		int v = ((data[pos] & 0xFF) << 8) | (data[pos + 1] & 0xFF);
@@ -47,18 +47,18 @@ final class ByteReader
 	}
 
 	/** Reads an unsigned 32-bit value that must fit into an int. */
-	int u31() throws ContainerFormatException
+	public int u31() throws FormatException
 	{
 		need(4);
 		int v = ((data[pos] & 0xFF) << 24) | ((data[pos + 1] & 0xFF) << 16)
 				| ((data[pos + 2] & 0xFF) << 8) | (data[pos + 3] & 0xFF);
 		pos += 4;
 		if (v < 0)
-			throw new ContainerFormatException("value out of range");
+			throw new FormatException("value out of range");
 		return v;
 	}
 
-	byte[] bytes(int n) throws ContainerFormatException
+	public byte[] bytes(int n) throws FormatException
 	{
 		need(n);
 		byte[] out = java.util.Arrays.copyOfRange(data, pos, pos + n);
@@ -66,15 +66,15 @@ final class ByteReader
 		return out;
 	}
 
-	void expectEnd() throws ContainerFormatException
+	public void expectEnd() throws FormatException
 	{
 		if (pos != end)
-			throw new ContainerFormatException("unexpected trailing data");
+			throw new FormatException("unexpected trailing data");
 	}
 
-	private void need(int n) throws ContainerFormatException
+	private void need(int n) throws FormatException
 	{
 		if (n < 0 || end - pos < n)
-			throw new ContainerFormatException("truncated data");
+			throw new FormatException("truncated data");
 	}
 }

@@ -3,10 +3,10 @@
  ******************************************************************************/
 package yact.core.format;
 
-import java.io.IOException;
+import yact.core.codec.FormatException;
 
 /** The data is not a YaCT container, is truncated, or uses an unsupported version or algorithm. */
-public class ContainerFormatException extends IOException
+public class ContainerFormatException extends FormatException
 {
 	private static final long serialVersionUID = 1L;
 

@@ -6,6 +6,7 @@ package yact.core.format;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import javax.security.auth.Destroyable;
 
@@ -13,6 +14,7 @@ import yact.core.crypto.Argon2Params;
 import yact.core.crypto.CipherSuite;
 import yact.core.crypto.Kdf;
 import yact.core.crypto.Passwords;
+import yact.core.pq.HybridPublicKey;
 
 /**
  * A container header together with its master key.
@@ -55,6 +57,22 @@ public final class UnlockedHeader implements AutoCloseable, Destroyable
 		return new UnlockedHeader(header, masterKey);
 	}
 
+	/**
+	 * Creates the header of a new container that only the owner of
+	 * {@code recipient}'s private key can open.
+	 */
+	public static UnlockedHeader create(CipherSuite suite, int chunkExponent, HybridPublicKey recipient)
+	{
+		byte[] masterKey = new byte[ContainerHeader.MASTER_KEY_LENGTH];
+		byte[] containerId = new byte[ContainerHeader.CONTAINER_ID_LENGTH];
+		RANDOM.nextBytes(masterKey);
+		RANDOM.nextBytes(containerId);
+
+		KeySlot slot = HybridKeySlot.create(masterKey, recipient, suite, containerId, RANDOM);
+		ContainerHeader header = ContainerHeader.sign(suite, chunkExponent, containerId, List.of(slot), masterKey);
+		return new UnlockedHeader(header, masterKey);
+	}
+
 	/** The current header; write {@link ContainerHeader#encode()} to persist changes. */
 	public ContainerHeader header()
 	{
@@ -65,12 +83,17 @@ public final class UnlockedHeader implements AutoCloseable, Destroyable
 	/** Adds a password slot, e.g. a second password or the first step of a password change. */
 	public void addPasswordSlot(char[] password, Argon2Params params)
 	{
-		checkAlive();
-		List<KeySlot> slots = new ArrayList<>(header.keySlots());
-		if (slots.size() >= ContainerHeader.MAX_KEY_SLOTS)
-			throw new IllegalStateException("all " + ContainerHeader.MAX_KEY_SLOTS + " key slots are in use");
-		slots.add(PasswordKeySlot.create(masterKey, password, params, header.cipherSuite(), header.containerId(), RANDOM));
-		resign(slots);
+		appendSlot(() -> PasswordKeySlot.create(masterKey, password, params, header.cipherSuite(), header.containerId(),
+				RANDOM));
+	}
+
+	/**
+	 * Adds a slot that the owner of {@code recipient}'s private key can open,
+	 * e.g. to share the container or as a recovery key.
+	 */
+	public void addPublicKeySlot(HybridPublicKey recipient)
+	{
+		appendSlot(() -> HybridKeySlot.create(masterKey, recipient, header.cipherSuite(), header.containerId(), RANDOM));
 	}
 
 	/**
@@ -103,6 +126,17 @@ public final class UnlockedHeader implements AutoCloseable, Destroyable
 		if (streamSalt.length < 16)
 			throw new IllegalArgumentException("stream salt must be at least 16 bytes");
 		return Kdf.hkdf(masterKey, header.containerId(), "YaCT v1 stream key", streamSalt);
+	}
+
+	/** Checks capacity first, so no expensive slot is built for nothing. */
+	private void appendSlot(Supplier<KeySlot> newSlot)
+	{
+		checkAlive();
+		List<KeySlot> slots = new ArrayList<>(header.keySlots());
+		if (slots.size() >= ContainerHeader.MAX_KEY_SLOTS)
+			throw new IllegalStateException("all " + ContainerHeader.MAX_KEY_SLOTS + " key slots are in use");
+		slots.add(newSlot.get());
+		resign(slots);
 	}
 
 	private void resign(List<KeySlot> slots)

@@ -9,7 +9,7 @@ package yact.core.format;
  *
  * <p>The numeric type ids are part of the file format and must never change.
  */
-public sealed interface KeySlot permits PasswordKeySlot, UnknownKeySlot
+public sealed interface KeySlot permits PasswordKeySlot, HybridKeySlot, UnknownKeySlot
 {
 	/** Type id written to the header. */
 	int type();
